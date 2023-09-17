@@ -1,7 +1,7 @@
 "use strict";
 /*-------------------------------------
 
-//?NODEJS
+//? HTTP
 
 -------------------------------------*/
 
@@ -20,8 +20,12 @@ const app = http
       res.end("Main Page");
     } else if (req.url === "/second") {
       if (req.method == "GET") {
+        res.writeHead(200, {
+            'Content-Type':'text/html'
+        })
         res.end("GET");
       } else {
+          res.writeHead(404, 'HATALI ISTEK')
         res.end("not supported req");
       }
     } else {
