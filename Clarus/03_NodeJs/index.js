@@ -20,10 +20,16 @@ const app = http
       res.end("Main Page");
     } else if (req.url === "/second") {
       if (req.method == "GET") {
-        res.writeHead(200, {
+        res.writeHead(200,'islem basairli' ,{
             'Content-Type':'text/html'
         })
-        res.end("GET");
+
+        const obj = {
+            result:true,
+            message:'islem basarili'
+        }
+
+        res.end(JSON.stringify(obj));
       } else {
           res.writeHead(404, 'HATALI ISTEK')
         res.end("not supported req");
