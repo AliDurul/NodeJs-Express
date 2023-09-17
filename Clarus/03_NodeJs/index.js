@@ -3,7 +3,7 @@
 
 //? HTTP
 
--------------------------------------*/
+-------------------------------------*
 
 const http = require("node:http");
 
@@ -43,5 +43,20 @@ const app = http
   });
 
 /* -------------------------------------*/
+
+//! env
+
+const http = require("node:http");
+require("dotenv").config()
+
+const PORT = process.env.PORT ?? 8000
+
+http
+  .createServer((req, res) => {
+    res.end("<h1> welcome nodejs server");
+  })
+  .listen(PORT, () =>
+    console.log(`server is running at http://127.0.0.1:${PORT}`)
+  );
 
 /* -------------------------------------*/
