@@ -57,11 +57,30 @@ app.all('/',(req,res) => {
 }); */
 
 
-app.get("/user/:userid(\\d+)-:username", (req, res) => {
+/* app.get("/user/:userid(\\d+)-:username", (req, res) => {
   res.send({
     paramas: req.params,
   });
-});
+}); */
+
+
+/* Response Methods */
+
+//? SendStatus:
+// app.get('/', (req, res) => res.sendStatus(200))
+//? Status:
+// app.get('/', (req, res) => res.status(200).send({ message: 'OK' }))
+// app.post('/', (req, res) => res.status(201).send({ message: 'Created' }))
+// app.put('/', (req, res) => res.status(202).send({ message: 'Accepted' }))
+// app.delete('/', (req, res) => res.status(204).send({ message: 'No Content' }))
+//? JSON (.send() method already does this converting.)
+// app.get('/', (req, res) => res.json([{ key: 'value' }]))
+//? Download File (Download at browser):
+// app.get('/download', (req, res) => res.download('index.js', 'changedName.js'))
+//? SendFile Content:
+// app.get('/file', (req, res) => res.sendFile(__dirname + '/index.js')) // FilePath must be realPath
+//? Redirect:
+// app.get('/google', (req, res) => res.redirect(302, 'https://www.google.com'))
 
 app.listen(PORT, () => {
   console.log(`Running on ${HOST}:${PORT}`);
