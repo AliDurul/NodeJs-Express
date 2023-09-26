@@ -27,12 +27,41 @@ app.all('/',(req,res) => {
 }) */
 
 //? app.route
-app.route('/')
+/* app.route('/')
 .get((req,res) => { res.send('get')})
 .post((req,res) => { res.send('post')})
 .put((req,res) => { res.send('put')})
-.delete((req,res) => { res.send('delete')})
+.delete((req,res) => { res.send('delete')}) */
 
+//? url parameters
+/* app.get("/user/:userId/config/:configParam/*", (req, res) => {
+  res.send({
+    url: {
+      protocol: req.protocol,
+      subdomains: req.subdomains,
+      hostname: req.hostname,
+      baseUrl: req.baseUrl,
+      params: req.params,
+      query: req.query,
+      path: req.path,
+      originalUrls: req.originalUrl,
+    },
+  });
+}); */
+
+//?format zorlama
+/* app.get("/user/:userid(\\d+)", (req, res) => {
+  res.send({
+    paramas: req.params,
+  });
+}); */
+
+
+app.get("/user/:userid(\\d+)-:username", (req, res) => {
+  res.send({
+    paramas: req.params,
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Running on ${HOST}:${PORT}`);
