@@ -37,13 +37,12 @@ app.get("/", (req, res) => {
 
 //! --------------------------------
 
-const middleFunction1 = (req, res, next) => {
+/* const middleFunction1 = (req, res, next) => {
 
   const skip = req.query.skip ?? false;
 
   req.name = "ali ";
   res.lastName = "durul";
-// next()
   skip ? next("route") : next(); // bir sonraki route a gider
 };
 
@@ -66,7 +65,53 @@ app.get("/", (req, res) => {
     res.send({
       msg: "this is next route ",
     });
-  });
+  }); */
 
+//! --------------------------------
+
+const middleFunction1 = (req, res, next) => {
+
+    const skip = req.query.skip ?? false;
+
+    req.name = "ali ";
+    res.lastName = "durul";
+
+    skip ? next("route") : next(); // bir sonraki route a gider
+  };
+
+  const middleFunction2 = (req, res, next) => {
+    res.send({
+      Name: [req.name, res.lastName],
+      msg: "this is func2",
+    });
+  };
+
+  app.use([middleFunction1,middleFunction2])
+
+  app.get("/", (req, res) => {
+    res.send({
+      msg: "first route ",
+    }); 1q  
+  });  
+
+  app.get("/", (req, res) => {
+    res.send({
+      msg: "second",
+    });
+  }); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//! --------------------------------
 
 app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
