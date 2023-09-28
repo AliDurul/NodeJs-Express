@@ -69,7 +69,7 @@ app.get("/", (req, res) => {
 
 //! --------------------------------
 
-const middleFunction1 = (req, res, next) => {
+/* const middleFunction1 = (req, res, next) => {
 
     const skip = req.query.skip ?? false;
 
@@ -98,15 +98,20 @@ const middleFunction1 = (req, res, next) => {
     res.send({
       msg: "second",
     });
+  });  */
+
+//! --------------------------------
+
+const  [middleFunction1, middleFunction2] = require('./middlewares/index')
+
+app.use(middleFunction1, middleFunction2)
+
+
+app.get("/*", (req, res) => {
+    res.send({
+      msg: "welcome home",
+    });
   }); 
-
-
-
-
-
-
-
-
 
 
 
