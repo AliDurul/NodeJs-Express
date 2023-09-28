@@ -38,9 +38,13 @@ app.get("/", (req, res) => {
 //! --------------------------------
 
 const middleFunction1 = (req, res, next) => {
+
+  const skip = req.query.skip ?? false;
+
   req.name = "ali ";
   res.lastName = "durul";
-  next();
+// next()
+  skip ? next("route") : next(); // bir sonraki route a gider
 };
 
 const middleFunction2 = (req, res, next) => {
@@ -50,12 +54,19 @@ const middleFunction2 = (req, res, next) => {
   });
 };
 
-app.get("/",[middleFunction1,middleFunction2], (req, res) => {
+app.get("/", [middleFunction1, middleFunction2], (req, res) => {
   res.send({
     userInfo: [req.name, res.lastName],
     msg: "welcome home",
   });
 });
 
-app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
 
+app.get("/", (req, res) => {
+    res.send({
+      msg: "this is next route ",
+    });
+  });
+
+
+app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
