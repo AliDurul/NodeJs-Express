@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8000;
 
 
 
-app.use(require('./routes/'))
+app.use('/company', require('./routes/'))
 
 
 

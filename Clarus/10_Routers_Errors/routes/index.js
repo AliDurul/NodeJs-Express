@@ -12,7 +12,7 @@ router.get("/about", (req, res) => {
 });
 router.get("/user/:userId", (req, res) => {
   res.send({
-    msg: "this is user",
+    msg: `this user id i: ${req.params.userId}`,
   });
 });
 
