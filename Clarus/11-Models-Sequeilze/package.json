@@ -1,11 +1,12 @@
 {
-  "name": "11_models_sequeilze",
+  "name": "11-models-sequeilze",
   "version": "1.0.0",
-  "description": "",
+  "description": "## What? Why?",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "test": "echo Welcome to MyProject",
+    "start": "nodemon server.js",
+    "devStart": "echo 'Welcome to Development Area'"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,8 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
     "sequelize": "^6.33.0",
     "sqlite3": "^5.1.6"
   }
