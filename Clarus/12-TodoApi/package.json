@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo Welcome to MyProject",
-    "start": "nodemon server.js",
+    "start": "nodemon app.js",
     "devStart": "echo 'Welcome to Development Area'"
   },
   "keywords": [],
@@ -14,6 +14,7 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
     "sequelize": "^6.33.0",
     "sqlite3": "^5.1.6"
   }
