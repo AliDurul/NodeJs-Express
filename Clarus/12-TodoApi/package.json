@@ -1,0 +1,20 @@
+{
+  "name": "11-models-sequeilze",
+  "version": "1.0.0",
+  "description": "## What? Why?",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo Welcome to MyProject",
+    "start": "nodemon server.js",
+    "devStart": "echo 'Welcome to Development Area'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "sequelize": "^6.33.0",
+    "sqlite3": "^5.1.6"
+  }
+}
