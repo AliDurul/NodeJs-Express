@@ -8,7 +8,7 @@ router.route("/post")
 
 router.route("/post/:postId")
   .get(BlogPost.read)
-  .post(BlogPost.update)
+  .put(BlogPost.update)
   .delete(BlogPost.delete);
 
 module.exports = router;
