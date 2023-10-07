@@ -42,4 +42,27 @@ module.exports.User = {
     const data = await User.deleteOne({ _id: req.params.userId });
     res.sendStatus(data.deletedCount >= 1 ? 204 : 404);
   },
+
+  login: async (req, res) => {
+    const {email, password} = req.body
+
+    if(email && password){
+      const user = await User.findOne({email:email, password:password})
+      if(user){
+
+        res.status(200).send({
+          error:false,
+          result:user
+        })
+
+      }else{
+        res.errorStatusCode = 401
+        throw new Error('Login parameters are not true.')
+      }
+    }else{
+      
+      res.errorStatusCode = 400
+      throw new Error('Please provide an email and password.')
+    }
+  }
 };
