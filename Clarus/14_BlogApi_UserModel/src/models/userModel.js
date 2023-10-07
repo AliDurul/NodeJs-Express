@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+const passwordEncrypt = require('../helpers/passwordEncrypt')
+
 const UserSchema = new mongoose.Schema(
   {
     firstName: String,
@@ -18,6 +20,7 @@ const UserSchema = new mongoose.Schema(
         type: String,
         trim: true,
         required:[true, 'passwrod field must be required. '],
+        set: (password)=> passwordEncrypt(password )
     },
   },
   {
