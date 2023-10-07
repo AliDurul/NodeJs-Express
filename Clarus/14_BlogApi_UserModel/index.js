@@ -22,7 +22,7 @@ app.all('/', (req, res) => {
     res.send('WELCOME TO BLOG API')
 })
 
-
+app.use('/user', require('./src/routes/userRoute'))
 app.use('/blog', require('./src/routes/blogRoute'))
 
 
