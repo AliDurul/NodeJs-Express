@@ -4,7 +4,15 @@ const { BlogPost,BlogCategory } = require("../models/blogModel");
 
 module.exports.BlogPost = {
   list: async (req, res) => {
-    const data = await BlogPost.find();
+    const data = await BlogPost.find().populate('blogCategoryId');
+    res.status(200).send({
+      error: false,
+      count: data.length,
+      result: data,
+    });
+  },
+  listInCategory: async (req, res) => {
+    const data = await BlogPost.find({blogCategoryId:req.params.categoryId}).populate('blogCategoryId');
     res.status(200).send({
       error: false,
       count: data.length,

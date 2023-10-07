@@ -21,4 +21,7 @@ router
   .put(BlogCategory.update)
   .delete(BlogCategory.delete);
 
+
+router.get('/category/:categoryId/posts', BlogPost.listInCategory)
+
 module.exports = router;
