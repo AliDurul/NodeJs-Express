@@ -28,11 +28,9 @@ app.use('/blog', require('./src/routes/blogRoute'))
 
 
 
-
-
-
-
 /* ------------------------------------------------------- */
 
 app.use(require("./src/errorHandler"))
+//sync
+require('./src/sync')()
 app.listen(PORT, () => console.log('Running: http://127.0.0.1:' + PORT))
