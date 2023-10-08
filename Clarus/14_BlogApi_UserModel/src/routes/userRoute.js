@@ -16,6 +16,7 @@ router
 //! login
 
 router.post('/login', User.login)
+router.post('/logut', User.logout)
 
 
 
