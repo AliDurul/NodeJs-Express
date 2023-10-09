@@ -30,6 +30,10 @@ app.use(express.json()); //?convert json to object
 
 require("./src/dbConnection"); //?db connection
 
+
+//? 
+app.use(require('./src/middlewares/findSearchSortPage'))
+
 //? home page
 app.all("/", (req, res) => {
   res.send("WELCOME TO BLOG API");

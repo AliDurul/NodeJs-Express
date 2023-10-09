@@ -4,23 +4,14 @@ const { BlogPost, BlogCategory } = require("../models/blogModel");
 
 module.exports.BlogPost = {
   list: async (req, res) => {
-    
     //! searching & sorting & pgination
 
-    //* SEARCH
-    const search = req.query?.search || {};
+   
+    // const data = await BlogPost.find(search).sort(sort).skip(skip).limit(limit).populate('blogCategoryId')
 
-    for (let key in search)
-      search[key] = { $regex: search[key], $options: "i" };
+const data = await req.getModelList(BlogPost, 'blogCategoryId')
 
-    //* SORTING
-    const sort = req.query?.sort
-
-
-    const data = await BlogPost.find(search).sort(sort);
-
-    // const data = await BlogPost.find().populate('blogCategoryId');
-    res.status(200).send({
+    res.status(200).send({ 
       error: false,
       count: data.length,
       result: data,
@@ -69,7 +60,8 @@ module.exports.BlogPost = {
 
 module.exports.BlogCategory = {
   list: async (req, res) => {
-    const data = await BlogCategory.find();
+    // const data = await BlogCategory.find();
+    const data = await req.getModelList(BlogCategory)
     res.status(200).send({
       error: false,
       count: data.length,
