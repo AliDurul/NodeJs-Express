@@ -20,17 +20,39 @@ const PORT = process.env?.PORT
 //? ASYNCERROR 
 require('express-async-errors')
 
+//?DB CONNECTION
+const {dbConnection} = require('./src/configs/dbConnection')
+dbConnection()
 
-// continue from here...
+//? ACCEPT JSON
+app.use(express.json())
+
+//? SESSION COOKIES
+app.use(require('cookie-session')({secret:process.env.SECRET_KEY}))
+
+//? res.getModelList()
+app.use(require('./src/middlewares/findSearchSortPage'))
+
+//? HomePath:
+app.all('/', (req, res) => {
+    res.send({
+        error: false,
+        message: 'Welcome to PERSONNEL API',
+    })
+})
+
+
+
+
+
 
 
 
 /* ------------------------------------------------------- */
-
-// errorHandler:
+//? errorHandler:
 app.use(require('./src/middlewares/errorHandler'))
 
-// RUN SERVER:
+//? RUN SERVER:
 app.listen(PORT, () => console.log('http://127.0.0.1:' + PORT))
 
 /* ------------------------------------------------------- */
