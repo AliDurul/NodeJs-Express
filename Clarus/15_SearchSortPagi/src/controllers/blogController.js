@@ -1,10 +1,25 @@
 require("express-async-errors");
 
-const { BlogPost,BlogCategory } = require("../models/blogModel");
+const { BlogPost, BlogCategory } = require("../models/blogModel");
 
 module.exports.BlogPost = {
   list: async (req, res) => {
-    const data = await BlogPost.find().populate('blogCategoryId');
+    
+    //! searching & sorting & pgination
+
+    //* SEARCH
+    const search = req.query?.search || {};
+
+    for (let key in search)
+      search[key] = { $regex: search[key], $options: "i" };
+
+    //* SORTING
+    const sort = req.query?.sort
+
+
+    const data = await BlogPost.find(search).sort(sort);
+
+    // const data = await BlogPost.find().populate('blogCategoryId');
     res.status(200).send({
       error: false,
       count: data.length,
@@ -12,7 +27,9 @@ module.exports.BlogPost = {
     });
   },
   listInCategory: async (req, res) => {
-    const data = await BlogPost.find({blogCategoryId:req.params.categoryId}).populate('blogCategoryId');
+    const data = await BlogPost.find({
+      blogCategoryId: req.params.categoryId,
+    }).populate("blogCategoryId");
     res.status(200).send({
       error: false,
       count: data.length,
@@ -76,7 +93,10 @@ module.exports.BlogCategory = {
     });
   },
   update: async (req, res) => {
-    const data = await BlogCategory.updateOne({ _id: req.params.categoryId }, req.body);
+    const data = await BlogCategory.updateOne(
+      { _id: req.params.categoryId },
+      req.body
+    );
     res.status(202).send({
       error: false,
       body: req.body,

@@ -40,7 +40,9 @@ app.use("/blog", require("./src/routes/blogRoute"));
 
 /* ------------------------------------------------------- */
 
-app.use(require("./src/errorHandler"));
-//sync
+//! sync
 // require('./src/sync')()
+
+
+app.use(require("./src/errorHandler"));
 app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
