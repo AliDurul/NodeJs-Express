@@ -6,16 +6,23 @@ const PORT = process.env.PORT
 
 app.use(express.json())
 
+//*----------------------------------------------*/
+
+
+// db conncection
 require('./src/dbConnection')
 
-
-app.all('/',(req,res) => {
-  res.send({
-    msg:'this is home'
-  })
-})
+// routers
+app.use('/blog',require('./src/routes/blogRoute'))
 
 
+
+
+
+
+//*----------------------------------------------*/
+
+// error handler
 app.use(require('./src/errorHandler'))
 
 app.listen(PORT, console.log('-- Server is running --'))

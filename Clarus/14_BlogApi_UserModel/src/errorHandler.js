@@ -1,5 +1,5 @@
 module.exports = (err, req, res, next) => {
-  const errStatusCode = res.errStatusCode;
+  const errStatusCode = res?.errStatusCode ?? 500
 
   res.status(errStatusCode).send({
     error: true,

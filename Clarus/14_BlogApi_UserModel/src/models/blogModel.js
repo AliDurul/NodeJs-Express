@@ -22,5 +22,5 @@ const blogPostSchema = new mongoose.Schema(
 
 
 module.exports = {
-    blogPost : mongoose.model('BlogPost',blogPostSchema) 
+    BlogPost : mongoose.model('BlogPost',blogPostSchema) 
 }
