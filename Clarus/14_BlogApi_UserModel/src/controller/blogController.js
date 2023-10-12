@@ -10,7 +10,6 @@ module.exports.BlogPost = {
       error: false,
       count: data.length,
       result: data,
-      
     });
   },
   create: async (req, res) => {
@@ -31,7 +30,7 @@ module.exports.BlogPost = {
     });
   },
   update: async (req, res) => {
-    const data = await BlogPost.updateOne({_id:req.params.postId},req.body);
+    const data = await BlogPost.updateOne({ _id: req.params.postId }, req.body);
 
     res.status(202).send({
       error: false,
@@ -39,9 +38,8 @@ module.exports.BlogPost = {
     });
   },
   delete: async (req, res) => {
-    const data = await BlogPost.deleteOne({_id:req.params.postId});
+    const data = await BlogPost.deleteOne({ _id: req.params.postId });
 
-res.sendStatus((data.deletedCount >= 1) ? 204 : 404)
-
+    res.sendStatus(data.deletedCount >= 1 ? 204 : 404);
   },
 };

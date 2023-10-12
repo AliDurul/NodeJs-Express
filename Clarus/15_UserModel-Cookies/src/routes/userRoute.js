@@ -1,8 +1,9 @@
+
 const router = require("express").Router();
 
-const {User} = require('../controllers/userController')
+const {User} = require('../controller/userController')
 
-//! user
+
 router.route("/").get(User.list).post(User.create);
 
 router
@@ -12,12 +13,9 @@ router
   .delete(User.delete);
 
 
+  //* LOGIN
 
-//! login
+  router.post('/login', User.login)
+  router.post('/logout', User.logout)
 
-router.post('/login', User.login)
-router.post('/logut', User.logout)
-
-
-
-module.exports = router
+  module.exports = router

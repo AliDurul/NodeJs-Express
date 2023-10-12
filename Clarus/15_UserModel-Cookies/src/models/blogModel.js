@@ -1,28 +1,5 @@
 const mongoose = require("mongoose");
 
-/* const nameSchema = new mongoose.Schema({
-
-    fieldName: {
-        type: String,
-        default: null,
-        trim: true,
-        select: true,
-        index: false,
-        unique: false,
-        required: [true,'Error-message'],
-        enum:[[0,1,2,3], 'Error-Message'],
-        validate:[function(data){return true},'Error-Message' ],
-        get:function(data){return data},
-        set:function(data){return data}
-         
-    }
-
-},{
-    collection:'collectionName',
-    timestamps:true,
-}) */
-
-//! blog Category
 const blogCategorySchema = new mongoose.Schema(
   {
     name: {
@@ -34,20 +11,18 @@ const blogCategorySchema = new mongoose.Schema(
   { collection: "blogCategories", timestamps: true }
 );
 
-//! blog post
 const blogPostSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.ObjectId,
       required: true,
-      ref: "User",
+      ref: "User", 
     },
     blogCategoryId: {
       type: mongoose.Schema.ObjectId,
       required: true,
       ref: "BlogCategory",
     },
-
     title: {
       type: String,
       trim: true,
@@ -65,8 +40,6 @@ const blogPostSchema = new mongoose.Schema(
   },
   { collection: "blogPosts", timestamps: true }
 );
-
-// const BlogPostModel = mongoose.model('BlogPost', blogPostSchema)
 
 module.exports = {
   BlogPost: mongoose.model("BlogPost", blogPostSchema),
