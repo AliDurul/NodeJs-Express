@@ -15,6 +15,8 @@ app.use(session({secret : process.env.SECRET_KEY, })) //?  maxAge: 1000 * 60* 60
 
 // db conncection
 require('./src/dbConnection')
+// searchSortPagination
+app.use(require('./src/middlewares/findSearchSortPage'))
 
 // routers
 app.use('/user', require('./src/routes/userRoute'))

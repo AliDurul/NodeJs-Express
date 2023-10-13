@@ -4,23 +4,8 @@ const { BlogPost, BlogCategory } = require("../models/blogModel");
 
 module.exports.BlogPost = {
   list: async (req, res) => {
-    // searching
-    const search = req.query?.search || {};
-    for (let key in search)
-      search[key] = { $regex: search[key], $options: "i" };
-
-    // sorting
-    const sort = req.query?.sort || {};
-
-    // pagination
-    const limit = Number(req.query?.limit || process.env.PAGE_SIZE);
-    const page = Number(req.query?.page || 1) - 1;
-    const skip = Number(req.queery?.skip) || limit * page;
-
-    console.log(skip);
-    const data = await BlogPost.find(search).sort(sort);
-
-    // const data = await BlogPost.find().populate('blogCategoryId')
+   
+ const data = await req.getModelList(BlogPost,"blogCategoryId")
 
     res.status(200).send({
       error: false,
