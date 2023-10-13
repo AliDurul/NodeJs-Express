@@ -59,7 +59,8 @@ module.exports.BlogPost = {
 
 module.exports.BlogCategory = {
   list: async (req, res) => {
-    const data = await BlogCategory.find();
+    // const data = await BlogCategory.find();
+    const data = await req.getModelList(BlogCategory)
 
     res.status(200).send({
       error: false,
