@@ -10,10 +10,7 @@ app.use(express.json())
 
 // session cookies
 const session = require('cookie-session')
-app.use(session({
-    //  maxAge: 1000 * 60* 60 * 24,
-     secret : process.env.SECRET_KEY
-}))
+app.use(session({secret : process.env.SECRET_KEY, })) //?  maxAge: 1000 * 60* 60 * 24,
 
 
 // db conncection
