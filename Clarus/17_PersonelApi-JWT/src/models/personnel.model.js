@@ -6,6 +6,8 @@ const { mongoose } = require('../configs/dbConnection')
 /* ------------------------------------------------------- */
 const passwordEncrypt = require('../helpers/passwordEncrypt')
 
+
+
 const PersonnelSchema = new mongoose.Schema({
 
     departmentId: {
