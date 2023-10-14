@@ -7,14 +7,14 @@
 module.exports = (req, res, next) => {  
 // Searching & Sorting & Pagination:  
 
-    // SEARCHING: 
+    // SEARCHING: URL?search[key1]=value1&search[key2]=value2
     const search = req.query?.search || {}
     for (let key in search) search[key] = { $regex: search[key], $options: 'i' }
 
-    // SORTING: 
+    // SORTING: URL?sort[key1]=1&sort[key2]=-1 (1:ASC, -1:DESC)
     const sort = req.query?.sort || {}
 
-    // PAGINATION:
+    // PAGINATION: URL?page=1&limit=10
     // LIMIT:
     let limit = Number(req.query?.limit)
     limit = limit > 0 ? limit : Number(process.env?.PAGE_SIZE || 20)
@@ -26,14 +26,20 @@ module.exports = (req, res, next) => {
     skip = skip > 0 ? skip : (page * limit)
 
     // Run SearchingSortingPagination engine for Model:
-    res.getModelList = async function (Model, populate = null) {
+    res.getModelList = async function (Model, filters = {}, populate = null) {
 
-        return await Model.find(search).sort(sort).skip(skip).limit(limit).populate(populate)
+        const filtersAndSearch = { ...filters, ...search  }
+
+        return await Model.find(filtersAndSearch).sort(sort).skip(skip).limit(limit).populate(populate)
     }
 
     // Details:
-    res.getModelListDetails = async function (Model) {
-        const data = await Model.find(search)
+    res.getModelListDetails = async function (Model, filters = {}) {
+
+        const filtersAndSearch = { ...filters, ...search }
+
+        const data = await Model.find(filtersAndSearch)
+
         let details = {
             search,
             sort,

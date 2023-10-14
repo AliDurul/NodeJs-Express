@@ -3,17 +3,25 @@
     EXPRESS - Personnel API
 ------------------------------------------------------- */
 const router = require('express').Router()
-const {Personnel} = require('../controllers/personnel.controller')
 /* ------------------------------------------------------- */
-router.route('/personnel')
-    .get(Personnel.list)
-    .post(Personnel.create)
 
-router.route('/personnel/:personnelId')
-    .get(Personnel.read)
-    .put(Personnel.update)
-    .delete(Personnel.delete)
+const personnel = require('../controllers/personnel.controller')
 
+// URL: /personnels
+
+// Login/logout:
+router.post('/login', personnel.login)
+router.all('/logout', personnel.logout)
+
+router.route('/')
+    .get(personnel.list)
+    .post(personnel.create)
+
+router.route('/:id')
+    .get(personnel.read)
+    .put(personnel.update)
+    .patch(personnel.update)
+    .delete(personnel.delete)
 
 /* ------------------------------------------------------- */
 module.exports = router

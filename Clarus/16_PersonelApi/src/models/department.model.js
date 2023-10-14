@@ -1,19 +1,20 @@
-"use strict";
+"use strict"
 /* -------------------------------------------------------
     EXPRESS - Personnel API
 ------------------------------------------------------- */
-const { mongoose } = require("../configs/dbConnection");
+const { mongoose } = require('../configs/dbConnection')
 /* ------------------------------------------------------- */
 
-const departmentSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      trim: true,
-      required: [true, 'name is required']
-    }
-  },
-  { collection: "departmens", timestamps: true }
-);
+const DepartmentSchema = new mongoose.Schema({
 
-module.exports = mongoose.model("Department", departmentSchema);
+    name: {
+        type: String,
+        trim: true,
+        required: true,
+        unique: true
+    }
+
+}, { collection: "departments", timestamps: true })
+
+/* ------------------------------------------------------- */
+module.exports = mongoose.model('Department', DepartmentSchema)

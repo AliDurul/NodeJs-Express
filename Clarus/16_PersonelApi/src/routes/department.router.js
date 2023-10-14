@@ -3,20 +3,23 @@
     EXPRESS - Personnel API
 ------------------------------------------------------- */
 const router = require('express').Router()
-const {Department} = require('../controllers/department.controller')
 /* ------------------------------------------------------- */
 
-router.route('/department')
-    .get(Department.list)
-    .post(Department.create)
+const department = require('../controllers/department.controller')
 
-router.route('/department/:departmentId')
-    .get(Department.read)
-    .put(Department.update)
-    .delete(Department.delete)
+// URL: /departments
 
+router.route('/')
+    .get(department.list)
+    .post(department.create)
 
+router.route('/:id')
+    .get(department.read)
+    .put(department.update)
+    .patch(department.update)
+    .delete(department.delete)
 
+router.get('/:id/personnels', department.personnels)
 
 /* ------------------------------------------------------- */
 module.exports = router
