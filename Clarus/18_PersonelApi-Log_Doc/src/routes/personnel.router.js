@@ -11,8 +11,8 @@ const permissions = require('../middlewares/permissions')
 // URL: /personnels
 
 // Login/logout:
-router.post('/login', personnel.login)
-router.all('/logout', personnel.logout)
+// router.post('/login', personnel.login)
+// router.all('/logout', personnel.logout)
 
 router.route('/')
     .get(permissions.isAdmin, personnel.list)

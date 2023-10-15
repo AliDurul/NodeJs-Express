@@ -1,0 +1,1671 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Clarusway StockApp API",
+      "description": "Clarusway StockApp API",
+      "termsOfService": "#",
+      "contact": {
+        "email": "anthonyharold67@gmail.com"
+      },
+      "license": {
+        "name": "BSD License"
+      },
+      "version": "v1"
+    },
+    "host": "stock-api.fullstack.clarusway.com",
+    "schemes": [
+      "http"
+    ],
+    "basePath": "/",
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "securityDefinitions": {
+      "Basic": {
+        "type": "basic"
+      }
+    },
+    "security": [
+      {
+        "Basic": []
+      }
+    ],
+    "paths": {
+      "/account/auth/login/": {
+        "post": {
+          "operationId": "account_auth_login_create",
+          "description": "Check the credentials and return the REST Token\nif the credentials are valid and authenticated.\nCalls Django Auth login method to register User ID\nin Django session framework\n\nAccept the following POST parameters: username, password\nReturn the REST Framework Token Object's key.",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Login"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Login"
+              }
+            }
+          },
+          "tags": [
+            "account"
+          ]
+        },
+        "parameters": []
+      },
+      "/account/auth/logout/": {
+        "get": {
+          "operationId": "account_auth_logout_list",
+          "summary": "Calls Django logout method and delete the Token object\nassigned to the current User object.",
+          "description": "Accepts/Returns nothing.",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "account"
+          ]
+        },
+        "post": {
+          "operationId": "account_auth_logout_create",
+          "summary": "Calls Django logout method and delete the Token object\nassigned to the current User object.",
+          "description": "Accepts/Returns nothing.",
+          "parameters": [],
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "account"
+          ]
+        },
+        "parameters": []
+      },
+      "/account/auth/password/change/": {
+        "post": {
+          "operationId": "account_auth_password_change_create",
+          "summary": "Calls Django Auth SetPasswordForm save method.",
+          "description": "Accepts the following POST parameters: new_password1, new_password2\nReturns the success/fail message.",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/PasswordChange"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/PasswordChange"
+              }
+            }
+          },
+          "tags": [
+            "account"
+          ]
+        },
+        "parameters": []
+      },
+      "/account/auth/password/reset/": {
+        "post": {
+          "operationId": "account_auth_password_reset_create",
+          "summary": "Calls Django Auth PasswordResetForm save method.",
+          "description": "Accepts the following POST parameters: email\nReturns the success/fail message.",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/PasswordReset"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/PasswordReset"
+              }
+            }
+          },
+          "tags": [
+            "account"
+          ]
+        },
+        "parameters": []
+      },
+      "/account/auth/password/reset/confirm/": {
+        "post": {
+          "operationId": "account_auth_password_reset_confirm_create",
+          "summary": "Password reset e-mail link is confirmed, therefore\nthis resets the user's password.",
+          "description": "Accepts the following POST parameters: token, uid,\n    new_password1, new_password2\nReturns the success/fail message.",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/PasswordResetConfirm"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/PasswordResetConfirm"
+              }
+            }
+          },
+          "tags": [
+            "account"
+          ]
+        },
+        "parameters": []
+      },
+      "/account/auth/user/": {
+        "get": {
+          "operationId": "account_auth_user_read",
+          "summary": "Reads and updates UserModel fields\nAccepts GET, PUT, PATCH methods.",
+          "description": "Default accepted fields: username, first_name, last_name\nDefault display fields: pk, username, email, first_name, last_name\nRead-only fields: pk, email\n\nReturns UserModel fields.",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/UserDetails"
+              }
+            }
+          },
+          "tags": [
+            "account"
+          ]
+        },
+        "put": {
+          "operationId": "account_auth_user_update",
+          "summary": "Reads and updates UserModel fields\nAccepts GET, PUT, PATCH methods.",
+          "description": "Default accepted fields: username, first_name, last_name\nDefault display fields: pk, username, email, first_name, last_name\nRead-only fields: pk, email\n\nReturns UserModel fields.",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserDetails"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/UserDetails"
+              }
+            }
+          },
+          "tags": [
+            "account"
+          ]
+        },
+        "patch": {
+          "operationId": "account_auth_user_partial_update",
+          "summary": "Reads and updates UserModel fields\nAccepts GET, PUT, PATCH methods.",
+          "description": "Default accepted fields: username, first_name, last_name\nDefault display fields: pk, username, email, first_name, last_name\nRead-only fields: pk, email\n\nReturns UserModel fields.",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserDetails"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/UserDetails"
+              }
+            }
+          },
+          "tags": [
+            "account"
+          ]
+        },
+        "parameters": []
+      },
+      "/account/register/": {
+        "post": {
+          "operationId": "account_register_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Register"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Register"
+              }
+            }
+          },
+          "tags": [
+            "account"
+          ]
+        },
+        "parameters": []
+      },
+      "/stock/brands/": {
+        "get": {
+          "operationId": "stock_brands_list",
+          "description": "",
+          "parameters": [
+            {
+              "name": "search",
+              "in": "query",
+              "description": "A search term.",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Brand"
+                }
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "post": {
+          "operationId": "stock_brands_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Brand"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Brand"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": []
+      },
+      "/stock/brands/{id}/": {
+        "get": {
+          "operationId": "stock_brands_read",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Brand"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "put": {
+          "operationId": "stock_brands_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Brand"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Brand"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "patch": {
+          "operationId": "stock_brands_partial_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Brand"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Brand"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "delete": {
+          "operationId": "stock_brands_delete",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "204": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A unique integer value identifying this brand.",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      },
+      "/stock/categories/": {
+        "get": {
+          "operationId": "stock_categories_list",
+          "description": "",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "query",
+              "description": "",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "search",
+              "in": "query",
+              "description": "A search term.",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Category"
+                }
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "post": {
+          "operationId": "stock_categories_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": []
+      },
+      "/stock/categories/{id}/": {
+        "get": {
+          "operationId": "stock_categories_read",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "put": {
+          "operationId": "stock_categories_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "patch": {
+          "operationId": "stock_categories_partial_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "delete": {
+          "operationId": "stock_categories_delete",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "204": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A unique integer value identifying this category.",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      },
+      "/stock/firms/": {
+        "get": {
+          "operationId": "stock_firms_list",
+          "description": "",
+          "parameters": [
+            {
+              "name": "search",
+              "in": "query",
+              "description": "A search term.",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Firm"
+                }
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "post": {
+          "operationId": "stock_firms_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Firm"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Firm"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": []
+      },
+      "/stock/firms/{id}/": {
+        "get": {
+          "operationId": "stock_firms_read",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Firm"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "put": {
+          "operationId": "stock_firms_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Firm"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Firm"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "patch": {
+          "operationId": "stock_firms_partial_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Firm"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Firm"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "delete": {
+          "operationId": "stock_firms_delete",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "204": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A unique integer value identifying this firm.",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      },
+      "/stock/products/": {
+        "get": {
+          "operationId": "stock_products_list",
+          "description": "",
+          "parameters": [
+            {
+              "name": "category",
+              "in": "query",
+              "description": "",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "brand",
+              "in": "query",
+              "description": "",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "search",
+              "in": "query",
+              "description": "A search term.",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Product"
+                }
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "post": {
+          "operationId": "stock_products_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": []
+      },
+      "/stock/products/{id}/": {
+        "get": {
+          "operationId": "stock_products_read",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "put": {
+          "operationId": "stock_products_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "patch": {
+          "operationId": "stock_products_partial_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "delete": {
+          "operationId": "stock_products_delete",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "204": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A unique integer value identifying this product.",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      },
+      "/stock/purchases/": {
+        "get": {
+          "operationId": "stock_purchases_list",
+          "description": "",
+          "parameters": [
+            {
+              "name": "firm",
+              "in": "query",
+              "description": "",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "product",
+              "in": "query",
+              "description": "",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "search",
+              "in": "query",
+              "description": "A search term.",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Purchase"
+                }
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "post": {
+          "operationId": "stock_purchases_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Purchase"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Purchase"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": []
+      },
+      "/stock/purchases/{id}/": {
+        "get": {
+          "operationId": "stock_purchases_read",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Purchase"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "put": {
+          "operationId": "stock_purchases_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Purchase"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Purchase"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "patch": {
+          "operationId": "stock_purchases_partial_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Purchase"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Purchase"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "delete": {
+          "operationId": "stock_purchases_delete",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "204": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A unique integer value identifying this purchases.",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      },
+      "/stock/sales/": {
+        "get": {
+          "operationId": "stock_sales_list",
+          "description": "",
+          "parameters": [
+            {
+              "name": "brand",
+              "in": "query",
+              "description": "",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "product",
+              "in": "query",
+              "description": "",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "search",
+              "in": "query",
+              "description": "A search term.",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Sales"
+                }
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "post": {
+          "operationId": "stock_sales_create",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Sales"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Sales"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": []
+      },
+      "/stock/sales/{id}/": {
+        "get": {
+          "operationId": "stock_sales_read",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Sales"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "put": {
+          "operationId": "stock_sales_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Sales"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Sales"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "patch": {
+          "operationId": "stock_sales_partial_update",
+          "description": "",
+          "parameters": [
+            {
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Sales"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Sales"
+              }
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "delete": {
+          "operationId": "stock_sales_delete",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "204": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "stock"
+          ]
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A unique integer value identifying this sales.",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      }
+    },
+    "definitions": {
+      "Login": {
+        "required": [
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "PasswordChange": {
+        "required": [
+          "new_password1",
+          "new_password2"
+        ],
+        "type": "object",
+        "properties": {
+          "new_password1": {
+            "title": "New password1",
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1
+          },
+          "new_password2": {
+            "title": "New password2",
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1
+          }
+        }
+      },
+      "PasswordReset": {
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email",
+            "minLength": 1
+          }
+        }
+      },
+      "PasswordResetConfirm": {
+        "required": [
+          "new_password1",
+          "new_password2",
+          "uid",
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "new_password1": {
+            "title": "New password1",
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1
+          },
+          "new_password2": {
+            "title": "New password2",
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1
+          },
+          "uid": {
+            "title": "Uid",
+            "type": "string",
+            "minLength": 1
+          },
+          "token": {
+            "title": "Token",
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "UserDetails": {
+        "required": [
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "pk": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "username": {
+            "title": "Username",
+            "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+            "type": "string",
+            "pattern": "^[\\w.@+-]+$",
+            "maxLength": 150,
+            "minLength": 1
+          },
+          "email": {
+            "title": "Email address",
+            "type": "string",
+            "format": "email",
+            "readOnly": true,
+            "minLength": 1
+          },
+          "first_name": {
+            "title": "First name",
+            "type": "string",
+            "maxLength": 150
+          },
+          "last_name": {
+            "title": "Last name",
+            "type": "string",
+            "maxLength": 150
+          }
+        }
+      },
+      "Register": {
+        "required": [
+          "username",
+          "email",
+          "password",
+          "password2"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+            "type": "string",
+            "pattern": "^[\\w.@+-]+$",
+            "maxLength": 150,
+            "minLength": 1
+          },
+          "first_name": {
+            "title": "First name",
+            "type": "string",
+            "maxLength": 150
+          },
+          "last_name": {
+            "title": "Last name",
+            "type": "string",
+            "maxLength": 150
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email",
+            "minLength": 1
+          },
+          "password": {
+            "title": "Password",
+            "type": "string",
+            "minLength": 1
+          },
+          "password2": {
+            "title": "Password2",
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "Brand": {
+        "required": [
+          "name",
+          "image"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 1
+          },
+          "image": {
+            "title": "Image",
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "Category": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "maxLength": 25,
+            "minLength": 1
+          },
+          "product_count": {
+            "title": "Product count",
+            "type": "string",
+            "readOnly": true
+          }
+        }
+      },
+      "Firm": {
+        "required": [
+          "name",
+          "phone",
+          "image",
+          "address"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 1
+          },
+          "phone": {
+            "title": "Phone",
+            "type": "string",
+            "maxLength": 15,
+            "minLength": 1
+          },
+          "image": {
+            "title": "Image",
+            "type": "string",
+            "minLength": 1
+          },
+          "address": {
+            "title": "Address",
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          }
+        }
+      },
+      "Product": {
+        "required": [
+          "name",
+          "category_id",
+          "brand_id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          "category": {
+            "title": "Category",
+            "type": "string",
+            "readOnly": true
+          },
+          "category_id": {
+            "title": "Category id",
+            "type": "integer"
+          },
+          "brand": {
+            "title": "Brand",
+            "type": "string",
+            "readOnly": true
+          },
+          "brand_id": {
+            "title": "Brand id",
+            "type": "integer"
+          },
+          "stock": {
+            "title": "Stock",
+            "type": "integer",
+            "readOnly": true
+          }
+        }
+      },
+      "Purchase": {
+        "required": [
+          "firm_id",
+          "brand_id",
+          "product_id",
+          "quantity",
+          "price"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "title": "User",
+            "type": "string",
+            "readOnly": true
+          },
+          "firm": {
+            "title": "Firm",
+            "type": "string",
+            "readOnly": true
+          },
+          "firm_id": {
+            "title": "Firm id",
+            "type": "integer"
+          },
+          "brand": {
+            "title": "Brand",
+            "type": "string",
+            "readOnly": true
+          },
+          "brand_id": {
+            "title": "Brand id",
+            "type": "integer"
+          },
+          "product": {
+            "title": "Product",
+            "type": "string",
+            "readOnly": true
+          },
+          "product_id": {
+            "title": "Product id",
+            "type": "integer"
+          },
+          "quantity": {
+            "title": "Quantity",
+            "type": "integer"
+          },
+          "category": {
+            "title": "Category",
+            "type": "string",
+            "readOnly": true
+          },
+          "price": {
+            "title": "Price",
+            "type": "string",
+            "format": "decimal"
+          },
+          "price_total": {
+            "title": "Price total",
+            "type": "string",
+            "format": "decimal",
+            "readOnly": true
+          },
+          "created": {
+            "title": "Created",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "createds": {
+            "title": "Createds",
+            "type": "string",
+            "readOnly": true
+          },
+          "time_hour": {
+            "title": "Time hour",
+            "type": "string",
+            "readOnly": true
+          }
+        }
+      },
+      "Sales": {
+        "required": [
+          "brand_id",
+          "product_id",
+          "quantity",
+          "price"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "title": "User",
+            "type": "string",
+            "readOnly": true
+          },
+          "brand": {
+            "title": "Brand",
+            "type": "string",
+            "readOnly": true
+          },
+          "brand_id": {
+            "title": "Brand id",
+            "type": "integer"
+          },
+          "product": {
+            "title": "Product",
+            "type": "string",
+            "readOnly": true
+          },
+          "product_id": {
+            "title": "Product id",
+            "type": "integer"
+          },
+          "quantity": {
+            "title": "Quantity",
+            "type": "integer"
+          },
+          "price": {
+            "title": "Price",
+            "type": "string",
+            "format": "decimal"
+          },
+          "price_total": {
+            "title": "Price total",
+            "type": "string",
+            "format": "decimal",
+            "readOnly": true
+          },
+          "created": {
+            "title": "Created",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "category": {
+            "title": "Category",
+            "type": "string",
+            "readOnly": true
+          },
+          "createds": {
+            "title": "Createds",
+            "type": "string",
+            "readOnly": true
+          },
+          "time_hour": {
+            "title": "Time hour",
+            "type": "string",
+            "readOnly": true
+          }
+        }
+      }
+    }
+  }
+  

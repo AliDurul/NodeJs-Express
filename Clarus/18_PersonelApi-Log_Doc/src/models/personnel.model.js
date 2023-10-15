@@ -13,12 +13,13 @@ const PersonnelSchema = new mongoose.Schema({
         ref: 'Department',
         required: true,
     },
-
     username: {
         type: String,
         trim: true,
         required: true,
         unique: true,
+        dataType: 'string',
+        exampleUsing: "username: test"
     },
 
     password: {

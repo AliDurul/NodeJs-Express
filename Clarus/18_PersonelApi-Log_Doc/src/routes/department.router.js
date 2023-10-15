@@ -12,7 +12,7 @@ const permissions = require('../middlewares/permissions')
 
 router.route('/')
     .get(permissions.isLogin, department.list)
-    .post(permissions.isAdmin, department.create)
+    .post(department.create)
 
 router.route('/:id')
     .get(permissions.isAdminOrLead, department.read)

@@ -30,6 +30,29 @@ dbConnection()
 /* ------------------------------------------------------- */
 // Middlewares:
 
+// Logging:
+// npm i morgan
+// https://expressjs.com/en/resources/middleware/morgan.html
+
+const morgan = require('morgan')
+// console.log(morgan)
+// app.use(morgan('combined'))
+// app.use(morgan('IP:remote-addr TIME:[:date[clf]] REQ:":method :url HTTP/:http-version" RES::status :res[content-length] APP:":user-agent"'))
+
+// //? Write logs to file:
+// const fs = require('node:fs')
+// app.use(morgan('combined', {
+//     stream: fs.createWriteStream('./access.log', { flags: 'a' })
+// }))
+
+//? Write logs to file - day by day:
+const fs = require('node:fs')
+const now = new Date()
+const today = now.toISOString().split('T')[0]
+app.use(morgan('combined', {
+    stream: fs.createWriteStream(`./logs/${today}.log`, { flags: 'a' })
+}))
+
 // Accept JSON:
 app.use(express.json())
 
@@ -84,6 +107,45 @@ app.use(require('./src/middlewares/findSearchSortPage'))
 // })
 app.use(require('./src/middlewares/authentication'))
 
+// Documentation Middlewares:
+// Swagger-UI:
+// npm i swagger-ui-express
+const swaggerUi = require('swagger-ui-express')
+const swaggerJson = require('./swagger.json')
+// Parse/Run swagger.json and publish on any URL:
+app.use('/docs/swagger', swaggerUi.serve, swaggerUi.setup(swaggerJson, { swaggerOptions: { persistAuthorization: true } }))
+// Redoc:
+// npm i redoc-express
+const redoc = require('redoc-express')
+app.use('/docs/json', (req, res) => {
+    res.sendFile('swagger.json', { root: '.' })
+})
+app.use('/docs/redoc', redoc({
+    specUrl: '/docs/json',
+    title: 'API Docs',
+    // redocOptions: {
+    //     theme: {
+    //         colors: {
+    //             primary: {
+    //                 main: '#6EC5AB'
+    //             }
+    //         },
+    //         typography: {
+    //             fontFamily: `"museo-sans", 'Helvetica Neue', Helvetica, Arial, sans-serif`,
+    //             fontSize: '15px',
+    //             lineHeight: '1.5',
+    //             code: {
+    //                 code: '#87E8C7',
+    //                 backgroundColor: '#4D4D4E'
+    //             }
+    //         },
+    //         menu: {
+    //             backgroundColor: '#ffffff'
+    //         }
+    //     }
+    // }
+}))
+
 /* ------------------------------------------------------- */
 // Routes:
 
@@ -92,6 +154,14 @@ app.all('/', (req, res) => {
     res.send({
         error: false,
         message: 'Welcome to PERSONNEL API',
+        api: {
+            documents: {
+                swagger: 'http://127.0.0.1:8000/docs/swagger',
+                redoc: 'http://127.0.0.1:8000/docs/redoc',
+                json: 'http://127.0.0.1:8000/docs/json',
+            },
+            contact: 'clarusway.com'
+        },
         // session: req.session,
         isLogin: req.isLogin,
         user: req.user
