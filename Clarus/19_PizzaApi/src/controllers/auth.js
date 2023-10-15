@@ -4,6 +4,7 @@
 ------------------------------------------------------- */
 
 const jwt = require("jsonwebtoken");
+const setToken = require("../helpers/setToken");
 
 const User = require("../models/user");
 
@@ -16,7 +17,7 @@ module.exports = {
 
       if (user) {
         if (user.isActive) {
-          const data = {
+          c; /* onst data = {
             access: jwt.sign(user.toJSON(), process.env.ACCESS_KEY, {
               expiresIn: "10m",
             }),
@@ -33,6 +34,11 @@ module.exports = {
               access: data.access,
               refresh: data.refresh,
             },
+          }); */
+
+          res.send({
+            error: false,
+            token: setToken(user),
           });
         } else {
           res.errorStatusCode = 401;
@@ -63,17 +69,21 @@ module.exports = {
               const user = await User.findOne({ _id });
               if (user && user.password == password) {
                 if (user.isActive) {
-
-                  const data = {
-                    access: jwt.sign(user.toJSON(), process.env.ACCESS_KEY, {expiresIn: "10m",}),
+                  /*      const data = {
+                    access: jwt.sign(user.toJSON(), process.env.ACCESS_KEY, {
+                      expiresIn: "10m",
+                    }),
                     refresh: null,
                   };
 
                   res.send({
                     error: false,
                     token: data,
+                  }); */
+                  res.send({
+                    error: false,
+                    token: setToken(user, true)
                   });
-                  
                 } else {
                   res.errorStatusCode = 401;
                   throw new Error("User is not active");
