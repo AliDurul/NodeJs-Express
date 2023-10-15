@@ -1,63 +1,60 @@
-"use strict"
+"use strict";
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 
-const express = require('express')
-const app = express()
+const express = require("express");
+const app = express();
 
 /* ------------------------------------------------------- */
 // Required Modules:
 
 // envVariables to process.env:
-require('dotenv').config()
-const PORT = process.env?.PORT || 8000
-
+require("dotenv").config();
+const PORT = process.env?.PORT || 8000;
 
 // asyncErrors to errorHandler:
-require('express-async-errors')
+require("express-async-errors");
 
 /* ------------------------------------------------------- */
 // Configrations:
 
 // Connect to DB:
-require('./src/configs/dbConnection')()
-
+require("./src/configs/dbConnection")();
 
 /* ------------------------------------------------------- */
 // Middlewares:
-app.use(express.json())
+app.use(express.json());
 
-app.use(require('./src/middlewares/logger'))
+app.use(require("./src/middlewares/logger"));
 
-app.use(require('./src/middlewares/findSearchSortPage'))
-
+app.use(require("./src/middlewares/findSearchSortPage"));
 
 /* ------------------------------------------------------- */
 // Routes:
 
 // Home path
-app.get('/',(req,res) => {
+app.get("/", (req, res) => {
   res.send({
-    error:false,
-    message:'Welcome to Pizaa API',
-  })
-})
+    error: false,
+    message: "Welcome to Pizaa API",
+  });
+});
 
-
-// User 
-app.use('/user',require('./src/routes/user'))
+// Auth
+app.use("/auth", require("./src/routes/auth"));
+// User
+app.use("/user", require("./src/routes/user"));
 // Topping
-app.use('/topping',require('./src/routes/topping'))
+app.use("/topping", require("./src/routes/topping"));
 // Pizza
-app.use('/pizzas',require('./src/routes/pizza'))
+app.use("/pizzas", require("./src/routes/pizza"));
 // Order
-app.use('/orders',require('./src/routes/order'))
+app.use("/orders", require("./src/routes/order"));
 /* ------------------------------------------------------- */
 
 // errorHandler:
-app.use(require('./src/middlewares/errorHandler'))
+app.use(require("./src/middlewares/errorHandler"));
 
 // RUN SERVER:
-app.listen(PORT, () => console.log('http://127.0.0.1:' + PORT))
-
+app.listen(PORT, () => console.log("http://127.0.0.1:" + PORT));
