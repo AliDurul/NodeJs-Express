@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
 // Auth
 app.use("/auth", require("./src/routes/auth"));
 // User
-app.use("/user", require("./src/routes/user"));
+app.use("/users", require("./src/routes/user"));
 // Topping
 app.use("/topping", require("./src/routes/topping"));
 // Pizza
