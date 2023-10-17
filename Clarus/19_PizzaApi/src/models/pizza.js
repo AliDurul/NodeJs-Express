@@ -2,10 +2,21 @@
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
-const { Schema, model } = require("mongoose");
+const { mongoose } = require('../configs/dbConnection')
+/* ------------------------------------------------------- *
+{
+  "name": "Pizza Margarita",
+  "price": 124.99,
+  "toppings": [
+    "652d71b9c31f8eecbf12519b",
+    "652d71bcc31f8eecbf12519d",
+    "652d71bfc31f8eecbf12519f"
+  ]
+}
 /* ------------------------------------------------------- */
+// Pizza Model:
 
-const PizzaSchema = new Schema({
+const PizzaSchema = new mongoose.Schema({
 
     name: {
         type: String,
@@ -26,7 +37,7 @@ const PizzaSchema = new Schema({
 
     toppings: [ // push, pull
         {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Topping'
         }
     ]
@@ -37,4 +48,4 @@ const PizzaSchema = new Schema({
 })
 
 /* ------------------------------------------------------- */
-module.exports = model('Pizza', PizzaSchema)
+module.exports = mongoose.model('Pizza', PizzaSchema)

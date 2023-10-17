@@ -2,20 +2,27 @@
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
-const { Schema, model } = require("mongoose");
+const { mongoose } = require('../configs/dbConnection')
+/* ------------------------------------------------------- *
+{
+    "name": "Sucuk"
+}
 /* ------------------------------------------------------- */
+// Topping Model:
 
-const ToppingSchema = new Schema(
-  {
+const ToppingSchema = new mongoose.Schema({
+
     name: {
-      type: String,
-      trim: true,
-      required: true,
-      unique: true,
+        type: String,
+        trim: true,
+        required: true,
+        unique: true,
     },
-   
-  },
-  { collection: "toppings", timestamps: true }
-);
 
-module.exports = model('Topping', ToppingSchema)
+}, {
+    collection: 'toppings',
+    timestamps: true
+})
+
+/* ------------------------------------------------------- */
+module.exports = mongoose.model('Topping', ToppingSchema)

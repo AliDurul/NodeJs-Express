@@ -1,10 +1,17 @@
-const Topping = require("../models/topping");
+"use strict"
+/* -------------------------------------------------------
+    NODEJS EXPRESS | CLARUSWAY FullStack Team
+------------------------------------------------------- */
+// Topping Controller:
+
+const Topping = require('../models/topping')
 
 module.exports = {
-  list: async (req, res) => {
-    /*
-            #swagger.tags = ["Topping"]
-            #swagger.summary = "List Topping"
+
+    list: async (req, res) => {
+        /*
+            #swagger.tags = ["Toppings"]
+            #swagger.summary = "List Toppings"
             #swagger.description = `
                 You can send query with endpoint for search[], sort[], page and limit.
                 <ul> Examples:
@@ -15,62 +22,72 @@ module.exports = {
             `
         */
 
-    const data = await res.getModelList(Topping);
-    res.status(200).send({
-      error: false,
-      count: data.length,
-      data,
-    });
-  },
+        const data = await res.getModelList(Topping)
 
-  create: async (req, res) => {
-    /*
-            #swagger.tags = ["Topping"]
+        res.status(200).send({
+            error: false,
+            details: await res.getModelListDetails(Topping),
+            data
+        })
+    },
+
+    create: async (req, res) => {
+        /*
+            #swagger.tags = ["Toppings"]
             #swagger.summary = "Create Topping"
         */
 
-    const data = await Topping.create(req.body);
-    res.status(201).send({
-      error: false,
-      data,
-    });
-  },
+        const data = await Topping.create(req.body)
 
-  read: async (req, res) => {
-    /*
-            #swagger.tags = ["Topping"]
+        res.status(201).send({
+            error: false,
+            data
+        })
+    },
+
+    read: async (req, res) => {
+        /*
+            #swagger.tags = ["Toppings"]
             #swagger.summary = "Get Single Topping"
         */
-    const data = await Topping.findOne({ _id: req.params.id });
-    res.status(200).send({
-      error: false,
-      data,
-    });
-  },
 
-  update: async (req, res) => {
-    /*
-            #swagger.tags = ["Topping"]
+        const data = await Topping.findOne({ _id: req.params.id })
+
+        res.status(200).send({
+            error: false,
+            data
+        })
+
+    },
+
+    update: async (req, res) => {
+        /*
+            #swagger.tags = ["Toppings"]
             #swagger.summary = "Update Topping"
         */
-    const data = await Topping.updateOne({ _id: req.params.id }, req.body);
-    res.status(202).send({
-      error: false,
-      data,
-      new: await Topping.findOne({ _id: req.params.id }),
-    });
-  },
 
-  delete: async (req, res) => {
-    /*
-            #swagger.tags = ["Topping"]
+        const data = await Topping.updateOne({ _id: req.params.id }, req.body)
+
+        res.status(202).send({
+            error: false,
+            data,
+            new: await Topping.findOne({ _id: req.params.id })
+        })
+
+    },
+
+    delete: async (req, res) => {
+        /*
+            #swagger.tags = ["Toppings"]
             #swagger.summary = "Delete Topping"
         */
-    const data = await Topping.deleteOne({ _id: req.params.id });
 
-    res.status(data.deletedCount ? 204 : 404).send({
-      error: !data.deletedCount,
-      data,
-    });
-  },
-};
+        const data = await Topping.deleteOne({ _id: req.params.id })
+
+        res.status(data.deletedCount ? 204 : 404).send({
+            error: !data.deletedCount,
+            data
+        })
+
+    },
+}

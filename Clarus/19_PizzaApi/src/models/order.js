@@ -2,21 +2,20 @@
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
-const { Schema, model } = require("mongoose");
-
+const { mongoose } = require('../configs/dbConnection')
 /* ------------------------------------------------------- */
 // Order Model:
 
-const OrderSchema = new Schema({
+const OrderSchema = new mongoose.Schema({
 
     userId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
 
     pizzaId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Pizza',
         required: true,
     },
@@ -30,11 +29,13 @@ const OrderSchema = new Schema({
     quantity: {
         type: Number,
         required: true,
+        default: 1,
     },
 
     price: {
         type: Number,
         required: true,
+        default: 0,
     },
 
     totalPrice: {
@@ -47,4 +48,4 @@ const OrderSchema = new Schema({
 })
 
 /* ------------------------------------------------------- */
-module.exports = model('Order', OrderSchema)
+module.exports = mongoose.model('Order', OrderSchema)
