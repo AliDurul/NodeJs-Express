@@ -20,7 +20,7 @@ const FlightSchema = new Schema(
       unique: false,
     },
     departure: {
-      type: Number,
+      type: String,
       trim: true,
       required: true,
     },
@@ -31,7 +31,7 @@ const FlightSchema = new Schema(
       default: Date.now,
     },
     arrival: {
-      type: Number,
+      type: String,
       trim: true,
       required: true,
     },
@@ -48,3 +48,6 @@ const FlightSchema = new Schema(
   },
   { collection: "flights", timestamps: true }
 );
+
+
+module.exports = model('Flight',FlightSchema )
