@@ -32,5 +32,11 @@ const PassangerSchema = new Schema({
             validator.isEmail ,
             'Please provide a valid Email Address.'
         ]
+    },
+    createdId:{
+        type:Schema.ObjectId,
+        ref:"User"
     }
-})
+}, {collection:'passengers', timestamps:true})
+
+module.exports = model("Passenger", PassangerSchema)
