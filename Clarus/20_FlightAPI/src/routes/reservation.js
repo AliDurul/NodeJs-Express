@@ -16,6 +16,9 @@ router.route('/:id')
     .put(reservation.update)
     .patch(reservation.update)
     .delete(reservation.delete)
+
+router.patch('/:id/push', reservation.pushPassenger)
+router.patch('/:id/pull', reservation.pullPassenger)
     
 
 module.exports = router

@@ -7,7 +7,11 @@ const Reservation = require("../models/reservation");
 
 module.exports = {
   list: async (req, res) => {
-   const data = await res.getModelList(Reservation, {}, ["flightId","createdId","passengers"]);
+    const data = await res.getModelList(Reservation, {}, [
+      "flightId",
+      "createdId",
+      "passengers",
+    ]);
 
     res.status(200).send({
       error: false,
@@ -26,9 +30,11 @@ module.exports = {
   },
 
   read: async (req, res) => {
-    const data = await Reservation.findOne({ _id: req.params.id }).populate(
-      "createdId"
-    );
+    const data = await Reservation.findOne({ _id: req.params.id }).populate([
+      "flightId",
+      "createdId",
+      "passengers",
+    ]);
 
     res.status(200).send({
       error: false,
@@ -52,4 +58,50 @@ module.exports = {
       data,
     });
   },
+  pushPassenger: async (req, res) => {
+    const passenger = req.body?.passanger;
+
+    const data = await Reservation.findOne({ _id: req.params?.id });
+
+    if (data.passengers.includes(passenger)) {
+
+      res.errorStatusCode = 403;
+      throw new Error("This ID is already in the reservation.");
+
+    } else {
+
+      data.passengers.push(passenger);
+      await data.save();
+
+      res.status(202).send({
+        error: false,
+        passengerCount: data.passengers.length,
+        data,
+      });
+
+    }
+  },
+  pullPassenger: async (req,res) => {
+    const passenger = req.body?.passanger;
+
+    const data = await Reservation.findOne({ _id: req.params?.id });
+
+    if ( !data.passengers.includes(passenger)) {
+
+      res.errorStatusCode = 403;
+      throw new Error("This ID is not already in the reservation.");
+
+    } else {
+
+      data.passengers.pull(passenger);
+      await data.save();
+
+      res.status(202).send({
+        error: false,
+        passengerCount: data.passengers.length,
+        data,
+      });
+
+    }
+  }
 };
