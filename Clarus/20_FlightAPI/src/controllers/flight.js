@@ -9,6 +9,7 @@ module.exports = {
   list: async (req, res) => {
     const data = await res.getModelList(Flight, {}, "createdId");
 
+
     res.status(200).send({
       error: false,
       dataCount: data.length,

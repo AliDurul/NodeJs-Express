@@ -8,10 +8,9 @@
 const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
+  const accessToken =  req.headers?.authorization ?  req.headers?.authorization.split(" ")[1] : null;
 
-    const auth = req.headers?.authorization || null
-    const accessToken = auth ? auth.split(' ')[1] : null
+  jwt.verify(accessToken, process.env.ACCESS_KEY,  (err, userData) =>  err ? (req.user = null) : (req.user = userData));
 
-    jwt.verify(accessToken, process.env.ACCESS_KEY, (err, userData) => req.user = userData)
-    next()
+  next();
 }

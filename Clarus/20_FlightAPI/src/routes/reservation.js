@@ -6,10 +6,12 @@
 const router = require('express').Router()
 
 const reservation = require('../controllers/reservation')
+const permissions = require('../middlewares/permissions')
 
+router.use(permissions.isStaff)
 router.route('/')
-    .get(reservation.list)
-    .post(reservation.create)
+    .get( reservation.list)
+    .post( reservation.create)
 
 router.route('/:id')
     .get(reservation.read)

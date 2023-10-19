@@ -6,6 +6,9 @@
 const router = require('express').Router()
 
 const passenger = require('../controllers/passenger')
+const permissions = require('../middlewares/permissions')
+
+router.use(permissions.isStaff)
 
 router.route('/')
     .get(passenger.list)
