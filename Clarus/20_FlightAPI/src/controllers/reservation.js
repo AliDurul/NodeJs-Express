@@ -4,6 +4,7 @@
 ------------------------------------------------------- */
 
 const Reservation = require("../models/reservation");
+const passenger = require("./passenger");
 
 module.exports = {
   list: async (req, res) => {
@@ -21,8 +22,36 @@ module.exports = {
   },
 
   create: async (req, res) => {
-    const data = await Reservation.create(req.body);
+    const Passenger = require("../models/passenger");
+    const passengers = req.body?.passengers;
+    let passengersArry = [];
 
+    
+    await Promise.all(
+      passengers.map(async (passenger) => {
+
+        if (typeof passenger === "string") {
+      
+          const data = await Passenger.findOne({ _id: passenger });
+          if (data) passengersArry.push(passenger);
+
+        } else if (passenger instanceof Object) {
+     
+          const data = await Passenger.findOne({ email: passenger.email });
+          if (data) passengersArry.push(data._id.toString());
+
+        }
+      })
+    );
+
+    const reservationData = {
+      flightId: req.body.flightId,
+      passengers: passengersArry,
+      createdId: req.body.createdId,
+    };
+  
+    const data = await Reservation.create(reservationData);
+    
     res.status(201).send({
       error: false,
       data,
@@ -64,12 +93,9 @@ module.exports = {
     const data = await Reservation.findOne({ _id: req.params?.id });
 
     if (data.passengers.includes(passenger)) {
-
       res.errorStatusCode = 403;
       throw new Error("This ID is already in the reservation.");
-
     } else {
-
       data.passengers.push(passenger);
       await data.save();
 
@@ -78,21 +104,17 @@ module.exports = {
         passengerCount: data.passengers.length,
         data,
       });
-
     }
   },
-  pullPassenger: async (req,res) => {
+  pullPassenger: async (req, res) => {
     const passenger = req.body?.passanger;
 
     const data = await Reservation.findOne({ _id: req.params?.id });
 
-    if ( !data.passengers.includes(passenger)) {
-
+    if (!data.passengers.includes(passenger)) {
       res.errorStatusCode = 403;
       throw new Error("This ID is not already in the reservation.");
-
     } else {
-
       data.passengers.pull(passenger);
       await data.save();
 
@@ -101,7 +123,6 @@ module.exports = {
         passengerCount: data.passengers.length,
         data,
       });
-
     }
-  }
+  },
 };

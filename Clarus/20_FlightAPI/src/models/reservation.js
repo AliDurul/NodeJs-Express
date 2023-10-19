@@ -11,12 +11,7 @@ const ReservationSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:"Flight",
     },
-    passengers: [
-        {
-            type: Schema.ObjectId,
-            ref:"Passenger"
-        }
-    ],
+    passengers: [ ],
     createdId:{
         type:Schema.ObjectId,
         ref:"User"
