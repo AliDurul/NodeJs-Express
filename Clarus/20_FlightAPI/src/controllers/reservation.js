@@ -26,21 +26,35 @@ module.exports = {
     const passengers = req.body?.passengers;
     let passengersArry = [];
 
-    
+    const todos = [1, 2, 3, 4, 5, 6];
+
+    todos.forEach((todo) => console.log(todo));
+
     await Promise.all(
       passengers.map(async (passenger) => {
-
         if (typeof passenger === "string") {
-      
           const data = await Passenger.findOne({ _id: passenger });
-          if (data) passengersArry.push(passenger);
 
-        } else if (passenger instanceof Object) {
-     
-          const data = await Passenger.findOne({ email: passenger.email });
-          if (data) passengersArry.push(data._id.toString());
-
+          if (data) {
+            if (passengersArry.includes(passenger)) {
+              throw new Error("The ID you want to put is already in the queue");
+            }
+            passengersArry.push(passenger);
+            return;
+          }
         }
+
+        const data = await Passenger.findOne({ email: passenger.email });
+        
+        if (data) {
+          if (passengersArry.includes(passenger.email)) {
+            throw new Error("The Email you want to put is already in the queue");
+          }
+          passengersArry.push(data._id.toString());
+          return;
+        }
+
+       
       })
     );
 
@@ -49,9 +63,9 @@ module.exports = {
       passengers: passengersArry,
       createdId: req.body.createdId,
     };
-  
+
     const data = await Reservation.create(reservationData);
-    
+
     res.status(201).send({
       error: false,
       data,
