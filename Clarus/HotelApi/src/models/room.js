@@ -14,7 +14,7 @@ const RoomSchema = new Schema(
     roomNumber: {
       type: Number,
       trim: true,
-      enum: [1, 2, 3, 4, 5],
+      enum: [1, 2, 3, 4, 5, 6],
       required: true,
     },
     image: {
@@ -22,7 +22,7 @@ const RoomSchema = new Schema(
       trim: true,
     },
     bedType: {
-      type: Number,
+      type: String,
       trim: true,
       enum: ["single", "family", "bigFamily"],
       required: true,

@@ -26,9 +26,6 @@ module.exports = {
     const passengers = req.body?.passengers;
     let passengersArry = [];
 
-    const todos = [1, 2, 3, 4, 5, 6];
-
-    todos.forEach((todo) => console.log(todo));
 
     await Promise.all(
       passengers.map(async (passenger) => {
@@ -39,6 +36,7 @@ module.exports = {
             if (passengersArry.includes(passenger)) {
               throw new Error("The ID you want to put is already in the queue");
             }
+
             passengersArry.push(passenger);
             return;
           }
@@ -58,13 +56,9 @@ module.exports = {
       })
     );
 
-    const reservationData = {
-      flightId: req.body.flightId,
-      passengers: passengersArry,
-      createdId: req.body.createdId,
-    };
+    req.body.passengers = passengersArry
 
-    const data = await Reservation.create(reservationData);
+    const data = await Reservation.create(req.body);
 
     res.status(201).send({
       error: false,

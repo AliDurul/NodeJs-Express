@@ -21,7 +21,7 @@ module.exports = {
                 </ul>
             `
         */
-
+        console.log(req.body);
         const data = await res.getModelList(Room)
 
         res.status(200).send({

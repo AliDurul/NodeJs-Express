@@ -30,14 +30,14 @@ module.exports = {
     }
 
     const { email, isActive, isAdmin, _id } = user;
-    const accessData = { email, isActive, isAdmin, username };
+    const accessData = { email, isActive, isAdmin, username,_id };
     const refreshData = { _id, password };
 
     res.send({
       error: false,
       Token: {
         access: jwt.sign(accessData, process.env.ACCESS_KEY, {
-          expiresIn: "30m",
+          expiresIn: "1d",
         }),
         refresh: jwt.sign(refreshData, process.env.REFRESH_KEY, {
           expiresIn: "1d",

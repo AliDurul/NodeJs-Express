@@ -22,25 +22,26 @@ const ReservationSchema = new Schema(
       ref: "Room",
       required: true,
     },
+
     arrivalDate: {
       type: Date,
       trim: true,
-      required: true,
+      // required: true,
       default: Date.now,
     },
     departureDate: {
       type: Date,
       trim: true,
-      required: true,
+      // required: true,
       default: Date.now,
     },
     guestNumber: {
-      type: BigInt,
+      type: Number,
       trim: true,
       default: 1,
     },
     night: {
-      type: BigInt,
+      type: Number,
       trim: true,
       required: true,
     },

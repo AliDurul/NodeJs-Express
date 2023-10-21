@@ -7,8 +7,10 @@ const router = require('express').Router()
 // routes/user:
 
 const reservation = require('../controllers/reservation')
+const permissions = require('../middlewares/permissions')
 
 // URL: /reservations
+router.use(permissions.isLogin)
 
 router.route('/')
     .get( reservation.list)

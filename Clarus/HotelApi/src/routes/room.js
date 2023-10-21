@@ -7,18 +7,20 @@ const router = require('express').Router()
 // routes/user:
 
 const room = require('../controllers/room')
+const permissions = require('../middlewares/permissions')
+
 
 // URL: /rooms
 
 router.route('/')
-    .get( room.list)
-    .post(room.create)
+    .get(permissions.isLogin, room.list)
+    .post(permissions.isAdmin, room.create)
 
 router.route('/:id')
-    .get( room.read)
-    .put( room.update)
-    .patch( room.update)
-    .delete( room.delete)
+    .get(permissions.isLogin, room.read)
+    .put(permissions.isAdmin, room.update)
+    .patch(permissions.isAdmin, room.update)
+    .delete(permissions.isAdmin, room.delete)
 
 /* ------------------------------------------------------- */
 module.exports = router
