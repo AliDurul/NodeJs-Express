@@ -49,5 +49,12 @@ const FlightSchema = new Schema(
   { collection: "flights", timestamps: true }
 );
 
+const dateToLocaleString = require("../helpers/dateToLocaleString");
 
-module.exports = model('Flight',FlightSchema )
+FlightSchema.pre("init", function (document) {
+  document.departureDateStr = dateToLocaleString(document.departureDate);
+  document.arrivalDateStr = dateToLocaleString(document.arrivalDate);
+  document.__v = undefined;
+});
+
+module.exports = model("Flight", FlightSchema);
