@@ -19,8 +19,7 @@ require('express-async-errors')
 // Configrations:
 
 // Connect to DB:
-const { dbConnection } = require('./src/configs/dbConnection')
-dbConnection()
+require('./src/configs/dbConnection')()
 
 /* ------------------------------------------------------- */
 // Middlewares:
@@ -50,10 +49,9 @@ app.all('/', (req, res) => {
     })
 })
 
-// auth:
-app.use('/auth', require('./src/routes/auth'))
-// document:
-app.use('/documents', require('./src/routes/document'))
+// all routes
+app.use(require('./src/routes/allRoutes'))
+
 
 /* ------------------------------------------------------- */
 

@@ -2,20 +2,20 @@
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
-// Reservation Controller:
+// User Controller:
 
-const Reservation = require('../models/reservation')
+const User = require('../models/user')
 
 module.exports = {
 
     list: async (req, res) => {
 
 
-        const data = await res.getModelList(Reservation)
+        const data = await res.getModelList(User)
 
         res.status(200).send({
             error: false,
-            details: await res.getModelListDetails(Reservation),
+            details: await res.getModelListDetails(User),
             data
         })
     },
@@ -23,7 +23,7 @@ module.exports = {
     create: async (req, res) => {
 
 
-        const data = await Reservation.create(req.body)
+        const data = await User.create(req.body)
 
         res.status(201).send({
             error: false,
@@ -34,7 +34,7 @@ module.exports = {
     read: async (req, res) => {
     
 
-        const data = await Reservation.findOne({ _id: req.params.id })
+        const data = await User.findOne({ _id: req.params.id })
 
         res.status(200).send({
             error: false,
@@ -46,12 +46,12 @@ module.exports = {
     update: async (req, res) => {
    
 
-        const data = await Reservation.updateOne({ _id: req.params.id }, req.body)
+        const data = await User.updateOne({ _id: req.params.id }, req.body)
 
         res.status(202).send({
             error: false,
             data,
-            new: await Reservation.findOne({ _id: req.params.id })
+            new: await User.findOne({ _id: req.params.id })
         })
 
     },
@@ -59,7 +59,7 @@ module.exports = {
     delete: async (req, res) => {
     
 
-        const data = await Reservation.deleteOne({ _id: req.params.id })
+        const data = await User.deleteOne({ _id: req.params.id })
 
         res.status(data.deletedCount ? 204 : 404).send({
             error: !data.deletedCount,

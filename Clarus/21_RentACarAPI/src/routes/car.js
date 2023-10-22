@@ -6,18 +6,18 @@ const router = require("express").Router();
 /* ------------------------------------------------------- */
 // routes/customer:
 
-const reservation = require("../controllers/reservation");
+const car = require("../controllers/car");
 
-// URL: /reservations
+// URL: /cars
 
-router.route("/").get(reservation.list).post(reservation.create);
+router.route("/").get(car.list).post(car.create);
 
 router
   .route("/:id")
-  .get(reservation.read)
-  .put(reservation.update)
-  .patch(reservation.update)
-  .delete(reservation.delete);
+  .get(car.read)
+  .put(car.update)
+  .patch(car.update)
+  .delete(car.delete);
 
 /* ------------------------------------------------------- */
 module.exports = router;
