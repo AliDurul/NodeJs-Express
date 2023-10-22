@@ -22,6 +22,11 @@ module.exports = {
 
     create: async (req, res) => {
 
+        const model = req.body?.model
+        const currentYear = new Date().getFullYear()
+
+        req.body.age = currentYear -  model
+
 
         const data = await Car.create(req.body)
 

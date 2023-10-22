@@ -20,12 +20,12 @@ const CarSchema = new Schema(
       required: true,
       enum: ["Economic", "Middle", "Lux", "Bus", "Caravan"],
     },
-    PlateNo: {
+    plateNo: {
       type: String,
       trim: true,
       required: true,
     },
-    Brand: {
+    brand: {
       type: String,
       trim: true,
       required: true,

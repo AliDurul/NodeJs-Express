@@ -5,6 +5,8 @@
 // Reservation Controller:
 
 const Reservation = require('../models/reservation')
+const Car = require('../models/car')
+
 
 module.exports = {
 
@@ -22,6 +24,16 @@ module.exports = {
 
     create: async (req, res) => {
 
+
+        const pickOfDate = new Date(req.body.pickOfDate)
+        const dropOfDate = new Date(req.body.dropOfDate)
+        const daysDifference = (dropOfDate - pickOfDate) / (1000 * 60 * 60 * 24)
+
+        const carInfo = await Car.findOne({_id:req.body.carID})
+
+        
+
+        req.body.totalPrice = daysDifference * carInfo.priceOfHrs
 
         const data = await Reservation.create(req.body)
 

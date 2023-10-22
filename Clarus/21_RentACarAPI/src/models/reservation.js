@@ -36,11 +36,6 @@ const ReservationSchema = new Schema(
       trim: true,
       required: true,
     },
-    status: {
-      type: Number,
-      trim: true,
-      required: true,
-    },
     totalPrice: {
       type: Number,
       trim: true,
