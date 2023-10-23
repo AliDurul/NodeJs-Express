@@ -9,6 +9,18 @@ const Car = require("../models/car");
 
 module.exports = {
   list: async (req, res) => {
+
+ 
+      const isPastDate =
+        new Date(req.body?.pickOfDate) > new Date() &&
+        new Date(req.body?.dropOfDate) > new Date();
+
+      if (!isPastDate) {
+        req.errorStatusCode = 401;
+        throw new Error("You can not choose past dates.");
+      }
+    
+
     const data = await res.getModelList(Reservation);
 
     res.status(200).send({
@@ -36,12 +48,20 @@ module.exports = {
         { dropOfDate: { $gt: req.body.pickOfDate, $lte: req.body.dropOfDate } },
       ],
     });
-console.log(reservations.length);
-    if (reservations) {
+
+    const users = await Reservation.find({
+      userID: req.body.userID,
+      $or: [
+        { pickOfDate: { $gte: req.body.pickOfDate, $lt: req.body.dropOfDate } },
+        { dropOfDate: { $gt: req.body.pickOfDate, $lte: req.body.dropOfDate } },
+      ],
+    });
+    console.log(users);
+
+    if (reservations.length) {
       const reservedDates = [];
 
       for (let reservation of reservations) {
-
         let newObj = {
           startDate: reservation.pickOfDate,
           endDate: reservation.dropOfDate,
@@ -51,10 +71,33 @@ console.log(reservations.length);
       }
 
       //Create a custom error object with your array
-    let errorWithArray = new Error('The car is not available with these dates.');
-    errorWithArray.reservedDates = reservedDates;
-    // Throw the error
-    throw errorWithArray;
+      let errorWithArray = new Error(
+        "The car is not available with these dates."
+      );
+      errorWithArray.reservedDates = reservedDates;
+      // Throw the error
+      throw errorWithArray;
+    }
+
+    if (users.length) {
+      const userReserved = [];
+
+      for (let reservation of users) {
+        let newObj = {
+          startDate: reservation.pickOfDate,
+          endDate: reservation.dropOfDate,
+        };
+
+        userReserved.push(newObj);
+      }
+
+      //Create a custom error object with your array
+      let errorWithArray = new Error(
+        "Same user can not rent a car on same dates."
+      );
+      errorWithArray.reservedDates = userReserved;
+      // Throw the error
+      throw errorWithArray;
     }
 
     const data = await Reservation.create(req.body);
@@ -64,9 +107,6 @@ console.log(reservations.length);
       data,
     });
   },
-
-
-
 
   read: async (req, res) => {
     const data = await Reservation.findOne({ _id: req.params.id });
