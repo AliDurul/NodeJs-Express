@@ -6,11 +6,20 @@
 
 module.exports = (err, req, res, next) => {
 
+
+    let cause = err.cause || 'Unknown Error';
+
+    if (err.reservedDates) {
+        cause = (err.reservedDates);
+    }
+
     return res.status(res?.errorStatusCode || 500).send({
         error: true,
         message: err.message,
-        cause: err.cause,
+        cause,
         body: req.body,
         stack: err.stack
     });
 }
+
+
