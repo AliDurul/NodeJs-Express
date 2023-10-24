@@ -11,9 +11,7 @@ module.exports = {
   list: async (req, res) => {
 
  
-      const isPastDate =
-        new Date(req.body?.pickOfDate) > new Date() &&
-        new Date(req.body?.dropOfDate) > new Date();
+      const isPastDate = new Date(req.body?.pickOfDate) > new Date() && new Date(req.body?.dropOfDate) > new Date();
 
       if (!isPastDate) {
         req.errorStatusCode = 401;
@@ -31,16 +29,15 @@ module.exports = {
   },
 
   create: async (req, res) => {
+
     const pickOfDate = new Date(req.body.pickOfDate);
     const dropOfDate = new Date(req.body.dropOfDate);
     const daysDifference = (dropOfDate - pickOfDate) / (1000 * 60 * 60 * 24);
 
     // req.user.isStaff  ? req.body.status = 'approved' : req.body.status = 'Pending'
 
-    const carInfo = await Car.findOne({ _id: req.body.carID });
-
-    req.body.totalPrice = daysDifference * carInfo.priceOfHrs;
-
+  
+ // check if the car is available
     const reservations = await Reservation.find({
       carID: req.body.carID,
       $or: [
@@ -48,16 +45,6 @@ module.exports = {
         { dropOfDate: { $gt: req.body.pickOfDate, $lte: req.body.dropOfDate } },
       ],
     });
-
-    const users = await Reservation.find({
-      userID: req.body.userID,
-      $or: [
-        { pickOfDate: { $gte: req.body.pickOfDate, $lt: req.body.dropOfDate } },
-        { dropOfDate: { $gt: req.body.pickOfDate, $lte: req.body.dropOfDate } },
-      ],
-    });
-    console.log(users);
-
     if (reservations.length) {
       const reservedDates = [];
 
@@ -71,14 +58,19 @@ module.exports = {
       }
 
       //Create a custom error object with your array
-      let errorWithArray = new Error(
-        "The car is not available with these dates."
-      );
+      let errorWithArray = new Error("The car is not available with these dates.");
       errorWithArray.reservedDates = reservedDates;
       // Throw the error
       throw errorWithArray;
     }
-
+ // check if the user is able to rent
+    const users = await Reservation.find({
+      userID: req.body.userID,
+      $or: [
+        { pickOfDate: { $gte: req.body.pickOfDate, $lt: req.body.dropOfDate } },
+        { dropOfDate: { $gt: req.body.pickOfDate, $lte: req.body.dropOfDate } },
+      ],
+    });
     if (users.length) {
       const userReserved = [];
 
@@ -92,13 +84,15 @@ module.exports = {
       }
 
       //Create a custom error object with your array
-      let errorWithArray = new Error(
-        "Same user can not rent a car on same dates."
-      );
+      let errorWithArray = new Error("Same user can not rent a car on same dates.");
       errorWithArray.reservedDates = userReserved;
       // Throw the error
       throw errorWithArray;
     }
+
+    
+    const carInfo = await Car.findOne({ _id: req.body.carID });
+    req.body.totalPrice  = daysDifference * carInfo.priceOfHrs;
 
     const data = await Reservation.create(req.body);
 

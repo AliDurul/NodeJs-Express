@@ -10,10 +10,9 @@ const Reservation = require("../models/reservation");
 module.exports = {
   list: async (req, res) => {
 
-    if (req.body.length) {
-      const isPastDate =
-        new Date(req.body?.pickOfDate) > new Date() &&
-        new Date(req.body?.dropOfDate) > new Date();
+    // check is date past
+    if (req.body?.pickOfDate && req.body?.dropOfDate ) {
+      const isPastDate = (new Date(req.body?.pickOfDate) > new Date()) && (new Date(req.body?.dropOfDate) > new Date());
 
       if (!isPastDate) {
         req.errorStatusCode = 401;
@@ -43,7 +42,6 @@ module.exports = {
       error: false,
       details: await res.getModelListDetails(Car),
       availableCars,
-
     });
   },
 
