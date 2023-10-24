@@ -7,17 +7,13 @@
 
 const jwt = require('jsonwebtoken')
 
-module.exports = function (userData, isRefresh = false) {
+module.exports = function (user, isRefresh = false) {
 
-    const data = {
-        access: userData.toJSON(),
-        refresh: { _id: userData._id, password: userData.password },
-        shortExpiresIn: '30m',
-        longExpiresIn: '3d',
-    }
+    const { _id , password , ...accessData} = user._doc;
+    const refreshData = { _id, password };
 
     return {
-        access: jwt.sign(data.access, process.env.ACCESS_KEY, { expiresIn: data.shortExpiresIn }),
-        refresh: (isRefresh ? undefined : jwt.sign(data.refresh, process.env.REFRESH_KEY, { expiresIn: data.longExpiresIn }))
+        access: jwt.sign(accessData, process.env.ACCESS_KEY, {expiresIn: "1d"}),
+        refresh: isRefresh ? null : jwt.sign(refreshData, process.env.REFRESH_KEY, {expiresIn: "3d",}) 
     }
 }

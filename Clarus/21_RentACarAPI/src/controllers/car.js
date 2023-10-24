@@ -28,7 +28,6 @@ module.exports = {
     });
 
     const carsReserved = [];
-
     for (let reservation of reservations) carsReserved.push(reservation.carID.toString());
 
     const availableCars = await Car.find({

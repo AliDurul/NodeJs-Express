@@ -1,144 +1,91 @@
-"use strict"
+"use strict";
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 // Auth Controller:
 
-const jwt = require('jsonwebtoken')
-const setToken = require('../helpers/setToken')
-
-const User = require('../models/user')
+const setToken = require("../helpers/setToken");
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
+  login: async (req, res) => {
+    const { email, password } = req.body;
 
-    login: async (req, res) => {
-        /*
-            #swagger.tags = ['Authentication']
-            #swagger.summary = 'Login'
-            #swagger.description = 'Login with username and password'
-            _swagger.deprecated = true
-            _swagger.ignore = true
-            #swagger.parameters['body'] = {
-                in: 'body',
-                required: true,
-                schema: {
-                    username: 'test',
-                    password: '1234'
-                }
-            }
-        */
+    if (!email || !password) {
+      res.errorStatusCode = 401;
+      throw new Error("Email and Password are required!");
+    }
 
-        const { username, password } = req.body
+    const user = await User.findOne({ email, password });
 
-        if (username && password) {
+    if (!user) {
+      res.errorStatusCode = 402;
+      throw new Error(" Invalid Email or Password!");
+    }
 
-            const user = await User.findOne({ username, password })
+    if (!user.isActive) {
+      res.errorStatusCode = 402;
+      throw new Error(" User is not active!");
+    }
 
-            if (user) {
+    res.send({
+      error: false,
+      Token: setToken(user),
+    });
+  },
 
-                if (user.isActive) {
+  refresh: async (req, res) => {
+    const refreshToken = req.body?.refresh;
 
-                    res.send({
-                        error: false,
-                        token: setToken(user)
-                    })
+    if (!refreshToken) {
+        res.errorStatusCode = 401;
+        throw new Error("Please provide refresh token!");
+      }
 
-                } else {
-
-                    res.errorStatusCode = 401
-                    throw new Error('This account is not active.')
-                }
-            } else {
-
-                res.errorStatusCode = 401
-                throw new Error('Wrong username or password.')
-            }
-        } else {
-
-            res.errorStatusCode = 401
-            throw new Error('Please enter username and password.')
+      jwt.verify(refreshToken, process.env.REFRESH_KEY, async function(err,userData){
+        if(err){
+            res.status(401).send({
+                error: true,
+                message: err.message
+              });
         }
-    },
+        const {_id,password } = userData
 
-    refresh: async (req, res) => {
-        /*
-            #swagger.tags = ['Authentication']
-            #swagger.summary = 'Token Refresh'
-            #swagger.description = 'Refresh accessToken with refreshToken'
-            #swagger.parameters['body'] = {
-                in: 'body',
-                required: true,
-                schema: {
-                    token: {
-                        refresh: '...refreshToken...'
-                    }
-                }
-            }
-        */
+        if (!_id || !password) {
+            res.errorStatusCode = 401;
+            throw new Error("Please provide ID and password in refresh token!");
+          }
 
-        const refreshToken = req.body?.token?.refresh
+          const user = await User.findOne({_id}) 
+        
+          if (!user) {
+            res.errorStatusCode = 401;
+            throw new Error("Invalid ID or Password!!");
+          }
 
-        if (refreshToken) {
+          if (!user.isActive) {
+            res.errorStatusCode = 402;
+            throw new Error(" User is not active!");
+          }
 
-            jwt.verify(refreshToken, process.env.REFRESH_KEY, async function (err, userData) {
-
-                if (err) {
-
-                    res.errorStatusCode = 401
-                    throw err
-                } else {
-
-                    const { _id, password } = userData
-
-                    if (_id && password) {
-
-                        const user = await User.findOne({ _id })
-
-                        if (user && user.password == password) {
-
-                            if (user.isActive) {
-
-                                res.send({
-                                    error: false,
-                                    token: setToken(user, true)
-                                })
-
-                            } else {
-
-                                res.errorStatusCode = 401
-                                throw new Error('This account is not active.')
-                            }
-                        } else {
-
-                            res.errorStatusCode = 401
-                            throw new Error('Wrong id or password.')
-                        }
-                    } else {
-
-                        res.errorStatusCode = 401
-                        throw new Error('Please enter id and password.')
-                    }
-                }
-            })
-
-        } else {
-            res.errorStatusCode = 401
-            throw new Error('Please enter token.refresh')
-        }
-    },
-
-    logout: async (req, res) => {
-        /*
-            #swagger.tags = ['Authentication']
-            #swagger.summary = 'Logout'
-            #swagger.description = 'No need any doing for logout. You must deleted Bearer Token from your browser.'
-        */
-
-        res.send({
+          res.send({
             error: false,
-            message: 'No need any doing for logout. You must deleted Bearer Token from your browser.'
-        })
+            Token: setToken(user, true),
+          });
 
-    },
 
-}
+      })
+
+
+
+  },
+  logout: (req, res) => {
+    res.send({
+      error: false,
+      message:
+        "No need any doing for logout. You must deleted Bearer Token from your browser.",
+    });
+  },
+
+};

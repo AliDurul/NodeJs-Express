@@ -8,8 +8,7 @@ module.exports = {
 
     isLogin: (req, res, next) => {
 
-        return next()
-        
+       console.log(req.user);
         if (req.user) {
             next()
         } else {
@@ -20,8 +19,7 @@ module.exports = {
 
     isAdmin: (req, res, next) => {
 
-        return next()
-        
+       
         if (req.user && req.user.isAdmin) {
             next()
         } else {
@@ -32,7 +30,6 @@ module.exports = {
 
     isStaff: (req, res, next) => {
 
-        return next()
         
         if (req.user && (req.user.isAdmin || req.user.isStaff)) {
             next()
