@@ -9,8 +9,9 @@ const jwt = require('jsonwebtoken')
 
 module.exports = function (user, isRefresh = false) {
 
-    const { _id , password , ...accessData} = user._doc;
-    const refreshData = { _id, password };
+    const {password , ...accessData} = user._doc;
+    const _id = accessData._id
+    const refreshData = { _id , password };
 
     return {
         access: jwt.sign(accessData, process.env.ACCESS_KEY, {expiresIn: "1d"}),

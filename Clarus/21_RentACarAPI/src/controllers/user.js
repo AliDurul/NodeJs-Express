@@ -36,17 +36,16 @@ module.exports = {
   },
 
   update: async (req, res) => {
+    
     if (!req.user.isAdmin) {
 
-        if (req.body.isAdmin == true) {
-            res.errorStatusCode = 401
-            throw new Error("You can not change your status unless admin!");
-          }
+        // if (req.body.isAdmin == true) {
+        //     res.errorStatusCode = 401
+        //     throw new Error("You can not change your status unless admin!");
+        //   }
 
       req.body.isAdmin = false;
       req.body.isStaff = false;
-
-     
     }
 
     const data = await User.updateOne({ _id: req.params.id }, req.body);

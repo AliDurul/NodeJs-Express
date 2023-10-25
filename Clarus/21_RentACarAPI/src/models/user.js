@@ -3,15 +3,6 @@
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 const { Schema, model } = require("mongoose");
-/* ------------------------------------------------------- *
-{
-    "username": "test",
-    "password": "1234",
-    "email": "test@site.com",
-    "isActive": true,
-    "isStaff": false,
-    "isAdmin": false,
-}
 /* ------------------------------------------------------- */
 // Customer Model:
 

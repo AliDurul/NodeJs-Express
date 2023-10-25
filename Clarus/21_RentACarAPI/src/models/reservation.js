@@ -36,15 +36,23 @@ const ReservationSchema = new Schema(
       trim: true,
       required: true,
     },
-    status: {
-      type: String,
-      required: true,
-    },
     totalPrice: {
       type: Number,
       trim: true,
       required: true,
     },
+    createdID: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    updatedID: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    status:{
+      type:String,
+      required:true
+    }
   },
   { collection: "reservations", timestamps: true }
 );

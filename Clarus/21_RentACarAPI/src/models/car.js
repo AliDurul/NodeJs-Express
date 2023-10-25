@@ -62,10 +62,14 @@ const CarSchema = new Schema(
       trim: true,
       required: true,
     },
-    priceOfHrs: {
+    dailyPrice: {
       type: Number,
       trim: true,
       required: true,
+    },
+    isPublish: {
+      type: Boolean,
+      default: true,
     },
   },
   { collection: "cars", timestamps: true }

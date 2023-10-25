@@ -7,17 +7,20 @@ const router = require("express").Router();
 // routes/customer:
 
 const car = require("../controllers/car");
+const permissons = require('../middlewares/permissions')
 
 // URL: /cars
 
-router.route("/").get(car.list).post(car.create);
+router.route("/")
+  .get(permissons.isLogin, car.list)
+  .post(permissons.isAdmin, car.create);
 
 router
   .route("/:id")
-  .get(car.read)
-  .put(car.update)
-  .patch(car.update)
-  .delete(car.delete);
+  .get( permissons.isLogin, car.read)
+  .put(permissons.isAdmin, car.update)
+  .patch(permissons.isAdmin, car.update)
+  .delete(permissons.isAdmin, car.delete);
 
 /* ------------------------------------------------------- */
 module.exports = router;

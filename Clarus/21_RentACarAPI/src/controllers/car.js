@@ -9,15 +9,17 @@ const Reservation = require("../models/reservation");
 
 module.exports = {
   list: async (req, res) => {
-
     // check is date past
-    if (req.body?.pickOfDate && req.body?.dropOfDate ) {
-      const isPastDate = (new Date(req.body?.pickOfDate) > new Date()) && (new Date(req.body?.dropOfDate) > new Date());
+    if (req.body?.pickOfDate && req.body?.dropOfDate) {
+      const isPastDate =
+        new Date(req.body?.pickOfDate) > new Date() &&
+        new Date(req.body?.dropOfDate) > new Date();
 
       if (!isPastDate) {
         req.errorStatusCode = 401;
         throw new Error("You can not choose past dates.");
       }
+
     }
 
     const reservations = await Reservation.find({
@@ -28,14 +30,21 @@ module.exports = {
     });
 
     const carsReserved = [];
-    for (let reservation of reservations) carsReserved.push(reservation.carID.toString());
+    for (let reservation of reservations)
+      carsReserved.push(reservation.carID.toString());
+
+    let condition ;
+    //check if user is customer. if user customer show them only working cars
+    if((req.body?.pickOfDate && req.body?.dropOfDate) && (!req.user.isStaff || req.user.isStaff) ){
+      condition = { isPublish: true }
+    }else{
+      condition = {}
+    }
 
     const availableCars = await Car.find({
+      ...condition,
       _id: { $nin: carsReserved },
     });
-
-
-    // const data = await res.getModelList(Car);
 
     res.status(200).send({
       error: false,
