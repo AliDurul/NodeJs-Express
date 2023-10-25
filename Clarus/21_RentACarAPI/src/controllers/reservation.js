@@ -5,17 +5,23 @@
 // Reservation Controller:
 
 const Reservation = require("../models/reservation");
+const sendEmail = require("../helpers/mail");
 const Car = require("../models/car");
 
 module.exports = {
   list: async (req, res) => {
-    const isPastDate =
-      new Date(req.body?.pickOfDate) > new Date() &&
-      new Date(req.body?.dropOfDate) > new Date();
 
-    if (!isPastDate) {
-      req.errorStatusCode = 401;
-      throw new Error("You can not choose past dates.");
+    // dates cheked if it is past
+   if (req.body?.pickOfDate && req.body?.dropOfDate) {
+      const isPastDate =
+        new Date(req.body?.pickOfDate) > new Date() &&
+        new Date(req.body?.dropOfDate) > new Date();
+
+      if (!isPastDate) {
+        req.errorStatusCode = 401;
+        throw new Error("You can not choose past dates.");
+      }
+
     }
 
     const data = await res.getModelList(Reservation);
@@ -103,15 +109,15 @@ module.exports = {
     const carInfo = await Car.findOne({ _id: req.body.carID });
     req.body.totalPrice = daysDifference * carInfo.dailyPrice;
 
-        // status
-        req.user.isStaff
-        ? (req.body.status = "Approved")
-        : (req.body.status = "Pending");
+    // status
+    req.user.isStaff
+      ? (req.body.status = "Approved")
+      : (req.body.status = "Pending");
 
     const data = await Reservation.create(req.body);
 
-    if(req.body.status === "Approved"){
-    console.log('email sent');
+    if (req.body.status === "Approved") {
+      sendEmail();
     }
 
     res.status(201).send({
@@ -121,7 +127,7 @@ module.exports = {
   },
 
   read: async (req, res) => {
-    const data = await Reservation.findOne({ _id: req.params.id });
+    const data = await Reservation.findOne({ _id: req.params.id }).populate(['carID','userID']);
 
     res.status(200).send({
       error: false,
@@ -131,11 +137,19 @@ module.exports = {
 
   update: async (req, res) => {
     const data = await Reservation.updateOne({ _id: req.params.id }, req.body);
+    const updatedData = await Reservation.findOne({ _id: req.params.id }).populate(['carID','userID']);
+  console.log(updatedData.userID.firstName); 
+
+  const { userID: { firstName, email }, carID: { brand,plateNo }, _id,pickOfDate,dropOfDate,pickOfLocation,dropOfLocation ,totalPrice  } = updatedData;  
+
+      if (updatedData.status === "Approved") {
+        sendEmail(email,firstName,_id ,brand,plateNo,pickOfDate,dropOfDate,pickOfLocation,dropOfLocation,totalPrice );
+      }
+    
 
     res.status(202).send({
       error: false,
-      data,
-      new: await Reservation.findOne({ _id: req.params.id }),
+      updatedData,
     });
   },
 
