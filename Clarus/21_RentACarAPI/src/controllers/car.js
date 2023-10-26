@@ -21,14 +21,14 @@ module.exports = {
       }
 
     }
-
+// check the reservations for selected dates
     const reservations = await Reservation.find({
       $or: [
         { pickOfDate: { $gte: req.body.pickOfDate, $lt: req.body.dropOfDate } },
         { dropOfDate: { $gt: req.body.pickOfDate, $lte: req.body.dropOfDate } },
       ],
     });
-
+// get the ID`s for reserved car
     const carsReserved = [];
     for (let reservation of reservations)
       carsReserved.push(reservation.carID.toString());
@@ -40,7 +40,7 @@ module.exports = {
     }else{
       condition = {}
     }
-
+// list only for available cars for selected dates
     const availableCars = await Car.find({
       ...condition,
       _id: { $nin: carsReserved },
@@ -56,7 +56,7 @@ module.exports = {
   create: async (req, res) => {
     const model = req.body?.model;
     const currentYear = new Date().getFullYear();
-
+// calculate age of car
     req.body.age = currentYear - model;
 
     const data = await Car.create(req.body);

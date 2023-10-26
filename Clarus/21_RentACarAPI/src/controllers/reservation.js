@@ -34,7 +34,7 @@ module.exports = {
   },
 
   create: async (req, res) => {
-    // userId
+    // check is userID in req.body
     if (req.user.isStaff && !req.body.userID) {
       throw new Error("Please provide userID for this reservation");
     } else if (!req.user.isStaff) {
@@ -115,7 +115,7 @@ module.exports = {
       : (req.body.status = "Pending");
 
     const data = await Reservation.create(req.body);
-
+// check if status isn approved
     if (req.body.status === "Approved") {
       sendEmail();
     }
@@ -136,12 +136,14 @@ module.exports = {
   },
 
   update: async (req, res) => {
+    // update selected reservation
     const data = await Reservation.updateOne({ _id: req.params.id }, req.body);
+    // list updated data
     const updatedData = await Reservation.findOne({ _id: req.params.id }).populate(['carID','userID']);
-  console.log(updatedData.userID.firstName); 
 
+  // destruction inf about reservation
   const { userID: { firstName, email }, carID: { brand,plateNo }, _id,pickOfDate,dropOfDate,pickOfLocation,dropOfLocation ,totalPrice  } = updatedData;  
-
+//send email if it is approved
       if (updatedData.status === "Approved") {
         sendEmail(email,firstName,_id ,brand,plateNo,pickOfDate,dropOfDate,pickOfLocation,dropOfLocation,totalPrice );
       }
