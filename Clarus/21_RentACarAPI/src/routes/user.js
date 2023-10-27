@@ -11,8 +11,8 @@ const permissions = require('../middlewares/permissions')
 // URL: /users
 
 router.route("/")
-.get(  user.list)
-.post(user.create);
+.get( permissions.isAdmin, user.list)
+.post(  user.create);
 
 router
   .route("/:id")

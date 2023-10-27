@@ -7,10 +7,12 @@ const router = require("express").Router();
 // routes/customer:
 
 const reservation = require("../controllers/reservation");
-
+const permissions = require('../middlewares/permissions')
 // URL: /reservations
 
-router.route("/").get(reservation.list).post(reservation.create);
+router.route("/")
+    .get(permissions.isLogin, reservation.list)
+    .post(reservation.create);
 
 router
   .route("/:id")

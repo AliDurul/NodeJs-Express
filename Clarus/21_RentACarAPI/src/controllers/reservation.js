@@ -10,9 +10,12 @@ const Car = require("../models/car");
 
 module.exports = {
   list: async (req, res) => {
+    const filters = {};
+    //  show the reservations only for the current user
+    if (!req.user.isStaff) filters.userID = req.user._id;
 
     // dates cheked if it is past
-   if (req.body?.pickOfDate && req.body?.dropOfDate) {
+    if (req.body?.pickOfDate && req.body?.dropOfDate) {
       const isPastDate =
         new Date(req.body?.pickOfDate) > new Date() &&
         new Date(req.body?.dropOfDate) > new Date();
@@ -21,14 +24,16 @@ module.exports = {
         req.errorStatusCode = 401;
         throw new Error("You can not choose past dates.");
       }
-
     }
 
-    const data = await res.getModelList(Reservation);
+    const data = await res.getModelList(Reservation, filters, [
+      "userID",
+      "carID",
+    ]);
 
     res.status(200).send({
       error: false,
-      details: await res.getModelListDetails(Reservation),
+      details: await res.getModelListDetails(Reservation, filters),
       data,
     });
   },
@@ -115,7 +120,7 @@ module.exports = {
       : (req.body.status = "Pending");
 
     const data = await Reservation.create(req.body);
-// check if status isn approved
+    // check if status isn approved
     if (req.body.status === "Approved") {
       sendEmail();
     }
@@ -127,7 +132,10 @@ module.exports = {
   },
 
   read: async (req, res) => {
-    const data = await Reservation.findOne({ _id: req.params.id }).populate(['carID','userID']);
+    const data = await Reservation.findOne({ _id: req.params.id }).populate([
+      "carID",
+      "userID",
+    ]);
 
     res.status(200).send({
       error: false,
@@ -139,15 +147,36 @@ module.exports = {
     // update selected reservation
     const data = await Reservation.updateOne({ _id: req.params.id }, req.body);
     // list updated data
-    const updatedData = await Reservation.findOne({ _id: req.params.id }).populate(['carID','userID']);
+    const updatedData = await Reservation.findOne({
+      _id: req.params.id,
+    }).populate(["carID", "userID"]);
 
-  // destruction inf about reservation
-  const { userID: { firstName, email }, carID: { brand,plateNo }, _id,pickOfDate,dropOfDate,pickOfLocation,dropOfLocation ,totalPrice  } = updatedData;  
-//send email if it is approved
-      if (updatedData.status === "Approved") {
-        sendEmail(email,firstName,_id ,brand,plateNo,pickOfDate,dropOfDate,pickOfLocation,dropOfLocation,totalPrice );
-      }
-    
+    // destruction inf about reservation
+    const {
+      userID: { firstName, email },
+      carID: { brand, plateNo },
+      _id,
+      pickOfDate,
+      dropOfDate,
+      pickOfLocation,
+      dropOfLocation,
+      totalPrice,
+    } = updatedData;
+    //send email if it is approved
+    if (updatedData.status === "Approved") {
+      sendEmail(
+        email,
+        firstName,
+        _id,
+        brand,
+        plateNo,
+        pickOfDate,
+        dropOfDate,
+        pickOfLocation,
+        dropOfLocation,
+        totalPrice
+      );
+    }
 
     res.status(202).send({
       error: false,

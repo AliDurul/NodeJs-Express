@@ -1,4 +1,5 @@
 "use strict";
+const user = require("../models/user");
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
@@ -18,6 +19,14 @@ module.exports = {
   },
 
   create: async (req, res) => {
+
+
+
+    if ((!req.user.isStaff ) || (req.user.isStaff && !req.user.isAdmin) ) {
+      req.body.isAdmin = false;
+      req.body.isStaff = false;
+    }
+
     const data = await User.create(req.body);
 
     res.status(201).send({
@@ -36,13 +45,11 @@ module.exports = {
   },
 
   update: async (req, res) => {
-    
     if (!req.user.isAdmin) {
-
-        // if (req.body.isAdmin == true) {
-        //     res.errorStatusCode = 401
-        //     throw new Error("You can not change your status unless admin!");
-        //   }
+      // if (req.body.isAdmin == true) {
+      //     res.errorStatusCode = 401
+      //     throw new Error("You can not change your status unless admin!");
+      //   }
 
       req.body.isAdmin = false;
       req.body.isStaff = false;
