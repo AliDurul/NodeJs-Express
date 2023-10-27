@@ -9,8 +9,9 @@ const Reservation = require("../models/reservation");
 
 module.exports = {
   list: async (req, res) => {
+    const isDateValid = req.body?.pickOfDate && req.body?.dropOfDate;
     // check is date past
-    if (req.body?.pickOfDate && req.body?.dropOfDate) {
+    if (isDateValid) {
       const isPastDate =
         new Date(req.body?.pickOfDate) > new Date() &&
         new Date(req.body?.dropOfDate) > new Date();
@@ -19,36 +20,28 @@ module.exports = {
         req.errorStatusCode = 401;
         throw new Error("You can not choose past dates.");
       }
-
     }
-// check the reservations for selected dates
-    const reservations = await Reservation.find({
-      $or: [
-        { pickOfDate: { $gte: req.body.pickOfDate, $lt: req.body.dropOfDate } },
-        { dropOfDate: { $gt: req.body.pickOfDate, $lte: req.body.dropOfDate } },
-      ],
-    });
-// get the ID`s for reserved car
-    const carsReserved = [];
-    for (let reservation of reservations)
-      carsReserved.push(reservation.carID.toString());
+    // check the reservations for selected dates
+    const reservedCars = await Reservation.find(
+      {
+        $or: [
+          {pickOfDate: { $gte: req.body.pickOfDate, $lt: req.body.dropOfDate },},
+          {dropOfDate: { $gt: req.body.pickOfDate, $lte: req.body.dropOfDate },},
+        ],
+      },{ _id: 0, carID: 1 }).distinct("carID");
 
-    let condition ;
     //check if user is customer. if user customer show them only working cars
-    if((req.body?.pickOfDate && req.body?.dropOfDate) && (!req.user.isStaff || req.user.isStaff) ){
-      condition = { isPublish: true }
-    }else{
-      condition = {}
-    }
-// list only for available cars for selected dates
-    const availableCars = await Car.find({
-      ...condition,
-      _id: { $nin: carsReserved },
-    });
+    let condition = {};
+    if (isDateValid && !req.user.isStaff) condition.isPublish = true;
+    condition._id = { $nin: reservedCars }
 
+    // list only for available cars for selected dates
+    const availableCars = await res.getModelList(Car, condition)
+
+  
     res.status(200).send({
       error: false,
-      details: await res.getModelListDetails(Car),
+      details: await res.getModelListDetails(Car,filters),
       availableCars,
     });
   },
@@ -56,7 +49,7 @@ module.exports = {
   create: async (req, res) => {
     const model = req.body?.model;
     const currentYear = new Date().getFullYear();
-// calculate age of car
+    // calculate age of car
     req.body.age = currentYear - model;
 
     const data = await Car.create(req.body);
