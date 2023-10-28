@@ -5,5 +5,5 @@
 // dateToLocaleString(date:Date):
 
 module.exports = function (dateData) {
-    return dateData.toLocaleString('tr-tr', { dateStyle: 'full', timeStyle: 'medium' })
+    return dateData.toLocaleString('en-en', { dateStyle: 'full', timeStyle: 'medium' })
 }

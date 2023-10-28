@@ -162,6 +162,7 @@ module.exports = {
       dropOfLocation,
       totalPrice,
     } = updatedData;
+
     //send email if it is approved
     if (updatedData.status === "Approved") {
       sendEmail(

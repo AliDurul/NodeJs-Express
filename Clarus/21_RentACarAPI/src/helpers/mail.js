@@ -1,6 +1,9 @@
 const nodemailer = require("nodemailer");
+const dateToLocaleString = require("../helpers/dateToLocaleString");
+
 
 function sendEmail(email,firstName,_id ,brand,plateNo,pickOfDate,dropOfDate,pickOfLocation,dropOfLocation,totalPrice) {
+
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -8,6 +11,7 @@ function sendEmail(email,firstName,_id ,brand,plateNo,pickOfDate,dropOfDate,pick
       pass: "byyh gygs ogji rtxs",
     },
   });
+
   const mailOptions = {
     from: { name: "DURUL RENT CAR", address: "alidrl26@gmail.com" },
     // attachments: [
@@ -24,7 +28,7 @@ function sendEmail(email,firstName,_id ,brand,plateNo,pickOfDate,dropOfDate,pick
 Your reservation has been successfully confirmed. Below, you can find the details of your rental:
 
 Reservation Number: ${_id}
-Rental Dates: ${pickOfDate} - ${dropOfDate}
+Rental Dates: ${dateToLocaleString(pickOfDate)   } - ${ dateToLocaleString(dropOfDate) }
 Rented Vehicle: ${brand}
 Vehicle License Plate: ${plateNo}
 Reservation Cost: ${totalPrice}
@@ -45,6 +49,7 @@ Durul Rent a Car
 +260 970732144
     `,
   };
+  
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);

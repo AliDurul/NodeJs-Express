@@ -3,6 +3,7 @@
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 const { Schema, model } = require("mongoose");
+const dateToLocaleString = require('../helpers/dateToLocaleString')
 /* ------------------------------------------------------- *
 
 /* ------------------------------------------------------- */
@@ -58,4 +59,6 @@ const ReservationSchema = new Schema(
 );
 
 /* ------------------------------------------------------- */
+
+
 module.exports = model("Reservation", ReservationSchema);
