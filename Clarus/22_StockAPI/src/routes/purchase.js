@@ -6,17 +6,17 @@ const router = require("express").Router();
 /* ------------------------------------------------------- */
 // routes/customer:
 
-const product = require("../controllers/product");
-// URL: /products
+const purchase = require("../controllers/purchase");
+// URL: /purchases
 
-router.route("/").get(product.list)
+router.route("/").get(purchase.list).post(purchase.create);
 
 router
   .route("/:id")
-  .get(product.read)
-  .put(product.update)
-  .patch(product.update)
-  .delete(product.delete);
+  .get(purchase.read)
+  .put(purchase.update)
+  .patch(purchase.update)
+  .delete(purchase.delete);
 
 /* ------------------------------------------------------- */
 module.exports = router;

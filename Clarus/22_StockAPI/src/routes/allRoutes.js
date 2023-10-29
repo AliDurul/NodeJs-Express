@@ -16,6 +16,8 @@ router.use('/brands', require('./brand'))
 router.use('/categories', require('./category'))
 // product:
 router.use('/products', require('./product'))
+// purchase:
+router.use('/purchases', require('./purchase'))
 
 
 
