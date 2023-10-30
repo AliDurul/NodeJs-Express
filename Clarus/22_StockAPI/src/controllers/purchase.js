@@ -7,14 +7,16 @@ const Product = require("../models/product");
 ------------------------------------------------------- */
 // Purchase Controller:
 
-/* {
+/* 
+{
   "firm_id": "653e2a0b2519ac2f888aee93",
   "brand_id": "653e2b43c0ffd59215eab223",
   "category_id": "653e2d2a1a418765b47a597a",
   "name": "Biskrem",
   "quantity": 100,
   "price": 100
-} */
+} 
+*/
 
 module.exports = {
   list: async (req, res) => {

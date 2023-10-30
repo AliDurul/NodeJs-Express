@@ -7,6 +7,16 @@ const Category = require("./category");
 ------------------------------------------------------- */
 // Product Controller:
 
+/* 
+{
+  "category_id":"653e2d241a418765b47a5978",
+  "brand_id":"Ulker",
+  "name":"Biskerem",
+  "quantity":150
+}
+
+*/
+
 module.exports = {
   list: async (req, res) => {
     const data = await res.getModelList(Product);

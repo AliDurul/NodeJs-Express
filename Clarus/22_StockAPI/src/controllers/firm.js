@@ -4,7 +4,14 @@ const Firm = require("../models/firm");
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 // Firm Controller:
-
+/* 
+{
+  "name":"Eti",
+  "phone":"+9953",
+  "address":"Balikesir",
+  "image":"eti"
+}
+*/
 
 module.exports = {
   list: async (req, res) => {

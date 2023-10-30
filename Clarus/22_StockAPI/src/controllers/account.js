@@ -5,6 +5,18 @@ const Account = require("../models/account");
 ------------------------------------------------------- */
 // Account Controller:
 
+/* 
+{
+  "first_name": "ali",
+  "last_name": "drl",
+  "username": "alidrl",
+  "password": "alidrl",
+  "email": "alidrl26@gmail.com",
+  "is_active": true,
+  "is_staff": true,
+  "is_superadmin": true
+}
+*/
 
 module.exports = {
   list: async (req, res) => {
