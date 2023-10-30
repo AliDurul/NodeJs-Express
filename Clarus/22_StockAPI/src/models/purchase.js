@@ -23,7 +23,7 @@ const PurchasesSchema = new Schema(
       },
     product_id: {
         type: Schema.Types.ObjectId,
-        ref:"Brand",
+        ref:"Product",
       },
     quantity: {
       type: Number,
