@@ -29,10 +29,12 @@ module.exports = {
   },
 
   create: async (req, res) => {
-    const name = req.body.brand_id;
+    const bName = req.body.brand_id;
+    const cName = req.body.category_id;
 
-    const { _id } = await Brand.findOne({ name });
-    const { _id : {id} } = await Category.findOne({ name });
+    const { _id } = await Brand.findOne({ name: bName  });
+    const { _id : {id} } = await Category.findOne({ name : cName });
+    
     req.body.brand_id = _id;
     req.body.category_id = id;
 
