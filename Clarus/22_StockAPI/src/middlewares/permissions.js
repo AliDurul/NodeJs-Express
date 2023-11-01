@@ -6,21 +6,21 @@
 
 module.exports = {
 
-    isLogin: (req, res, next) => {
+    isActive: (req, res, next) => {
 
        
-        if (req.user) {
+        if (req.user.is_active) {
             next()
         } else {
             res.errorStatusCode = 403
-            throw new Error('NoPermission: You must login.')
+            throw new Error('NoPermission: You must communicate with your boss to update your status.')
         }
     },
 
     isAdmin: (req, res, next) => {
 
        
-        if (req.user && req.user.isAdmin) {
+        if (req.user && req.user.is_superadmin) {
             next()
         } else {
             res.errorStatusCode = 403
@@ -31,7 +31,7 @@ module.exports = {
     isStaff: (req, res, next) => {
 
         
-        if (req.user && (req.user.isAdmin || req.user.isStaff)) {
+        if (req.user.is_active && (req.user.is_superadmin || req.user.is_staff)) {
             next()
         } else {
             res.errorStatusCode = 403
