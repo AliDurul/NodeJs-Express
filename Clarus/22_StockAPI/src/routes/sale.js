@@ -5,7 +5,7 @@
 const router = require("express").Router();
 /* ------------------------------------------------------- */
 // routes/customer:
-const sales = require("../controllers/sales");
+const sales = require("../controllers/sale");
 // URL: /products
 router.route("/")
 .get(sales.list)

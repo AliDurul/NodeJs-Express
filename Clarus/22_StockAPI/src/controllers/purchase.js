@@ -20,11 +20,7 @@ const Product = require("../models/product");
 
 module.exports = {
   list: async (req, res) => {
-    const data = await res.getModelList(Purchase, {}, [
-      "firm_id",
-      "brand_id",
-      "product_id",
-    ]);
+    const data = await res.getModelList(Purchase ,{}, 'product_id' );
 
     res.status(200).send({
       error: false,
@@ -36,26 +32,21 @@ module.exports = {
   create: async (req, res) => {
     const { quantity, price, brand_id, name, category_id } = req.body;
 
-    const productInfo = { quantity, brand_id, name, category_id };
+    const productInfo = { brand_id, name, category_id };
 
     let productData = await Product.findOne({ name });
 
     // check if there is a product with same name
-    if (productData) {
-      const newQuantity = productData.quantity + quantity;
-      await Product.updateOne(
-        { _id: productData._id },
-        { quantity: newQuantity }
-      );
-    } else {
-      productData = await Product.create(productInfo);
-    }
+    !productData &&  (productData = await Product.create(productInfo))
+    
     // calculate total price
     req.body.price_total = quantity * price;
     // send productID
     req.body.product_id = productData._id.toString();
     // give user ID dinamicly
     req.body.user_id = req.user._id;
+    req.body.updated_id = req.user._id;
+
 
     const data = await Purchase.create(req.body);
 
@@ -66,7 +57,7 @@ module.exports = {
   },
 
   read: async (req, res) => {
-    const data = await Purchase.findOne({ _id: req.params.id });
+    const data = await Purchase.findOne({ _id: req.params.id }).populate("product_id");
 
     res.status(200).send({
       error: false,
@@ -75,7 +66,34 @@ module.exports = {
   },
 
   update: async (req, res) => {
-    if (req.body?.quantity || req.body?.price) {
+
+    if(req.body?.quantity || req.body?.price){
+      req.errorStatusCode = 401
+      throw new Error('You can not change Price or Quantity. If it is neccesary create new Purchase.')
+    }
+
+
+
+    if(req.body.isCounted){
+
+      const purchase = await Purchase.findOne({ _id: req.params.id }).populate('product_id');
+      const { product_id: { _id, quantity: prdQuantity }, quantity: prcQuantity, isCounted } = purchase
+
+      if( req.body.isCounted !== isCounted){
+        const quantity = prdQuantity + prcQuantity
+
+        await Product.updateOne({ _id }, {quantity});
+      }
+
+      
+    }
+
+    req.body.updated_id = req.user._id
+
+    const data = await Purchase.updateOne({ _id: req.params.id }, req.body);
+
+// update quantity or price at two table
+  /*   if (req.body?.quantity || req.body?.price) {
       const purchase = await Purchase.findOne({ _id: req.params.id });
 
       const product = await Product.findOne({ _id: purchase.product_id });
@@ -89,15 +107,14 @@ module.exports = {
       req.body.price_total =
         (req.body?.quantity ? req.body?.quantity : purchase.quantity) *
         (req.body?.price ? req.body?.price : purchase.price);
-    }
-
-    const data = await Purchase.updateOne({ _id: req.params.id }, req.body);
+    } */
 
     res.status(202).send({
       error: false,
       data,
       new: await Purchase.findOne({ _id: req.params.id }),
     });
+    
   },
 
   delete: async (req, res) => {

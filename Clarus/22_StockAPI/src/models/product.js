@@ -24,8 +24,7 @@ const ProductsSchema = new Schema(
     },
     quantity: {
       type: Number,
-      trim: true,
-      required: true,
+      default:0
     },
 
   },

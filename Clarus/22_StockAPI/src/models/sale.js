@@ -21,7 +21,7 @@ const SalesSchema = new Schema(
     },
     firm_id: {
       type: Schema.Types.ObjectId,
-      ref:"Firm"
+      ref: "Firm",
     },
     quantity: {
       type: Number,
@@ -38,13 +38,13 @@ const SalesSchema = new Schema(
       trim: true,
     },
     isCounted: {
-        type: Boolean,
-        default: false,
-      },
-      updated_id:{
-        type: Schema.Types.ObjectId,
-        ref:"Account",
-      },
+      type: Boolean,
+      default: false,
+    },
+    updated_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Account",
+    },
   },
   { collection: "sales", timestamps: true }
 );
