@@ -4,27 +4,25 @@
 ------------------------------------------------------- */
 const { Schema, model } = require("mongoose");
 /* ------------------------------------------------------- */
-// Customer Model:
-
-
-const PurchasesSchema = new Schema(
+// Sales Model:
+const SalesSchema = new Schema(
   {
     user_id: {
       type: Schema.Types.ObjectId,
-      ref:"Account",
+      ref: "Account",
+    },
+    brand_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Brand",
+    },
+    product_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
     },
     firm_id: {
       type: Schema.Types.ObjectId,
-      ref:"Firm",
+      ref:"Firm"
     },
-    brand_id: {
-        type: Schema.Types.ObjectId,
-        ref:"Brand",
-      },
-    product_id: {
-        type: Schema.Types.ObjectId,
-        ref:"Product",
-      },
     quantity: {
       type: Number,
       trim: true,
@@ -38,20 +36,17 @@ const PurchasesSchema = new Schema(
     price_total: {
       type: Number,
       trim: true,
-      required: true,
     },
     isCounted: {
-      type: Boolean,
-      default: false,
-    },
-    updated_id:{
-      type: Schema.Types.ObjectId,
-      ref:"Account",
-    },
-
+        type: Boolean,
+        default: false,
+      },
+      updated_id:{
+        type: Schema.Types.ObjectId,
+        ref:"Account",
+      },
   },
-  { collection: "purchase", timestamps: true }
+  { collection: "sales", timestamps: true }
 );
-
 /* ------------------------------------------------------- */
-module.exports = model("Purchase", PurchasesSchema);
+module.exports = model("Sales", SalesSchema);

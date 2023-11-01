@@ -31,7 +31,10 @@ const FirmsSchema = new Schema(
       trim: true,
       required: true,
     },
-
+    isProvider: {
+      type: Boolean,
+      required: true
+    },
   },
   { collection: "firms", timestamps: true }
 );
