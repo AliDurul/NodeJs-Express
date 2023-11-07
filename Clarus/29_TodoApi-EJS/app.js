@@ -5,9 +5,6 @@
 
 const express = require("express");
 const app = express();
-const cors = require('cors')
-
-app.use(cors())
 
 require("dotenv").config();
 const PORT = process.env.PORT || 8000;
@@ -16,8 +13,13 @@ const PORT = process.env.PORT || 8000;
 // Accept json data & convert to object:
 app.use(express.json())
 
+// TEMPLATE
+
+app.set('view engine', 'ejs') 
+
+
 // Router:
-app.use(require('./app/routes/todo'))
+app.use('/api',require('./app/routes/todo'))
 
 // DatabaseConnection:
 const { dbConnection } = require('./app/dbConnection')
