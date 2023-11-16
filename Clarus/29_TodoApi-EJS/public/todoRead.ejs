@@ -23,29 +23,29 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th># 1</th>
+                        <th># <%= todo.id %></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Title</td>
-                        <td>Test Title</td>
+                        <td><%= todo.title %></td>
                     </tr>
                     <tr>
                         <td>Description</td>
-                        <td>Test Description</td>
+                        <td><%= todo.description %></td>
                     </tr>
                     <tr>
                         <td>Priority</td>
-                        <td>Norm</td>
+                        <td><%= priority[todo.priority] %></td>
                     </tr>
                     <tr>
                         <td>Is Done?</td>
-                        <td>No</td>
+                        <td><%= (todo.isDone ? 'Yes' : 'No') %></td>
                     </tr>
                     <tr>
                         <td>Created</td>
-                        <td>05/11/2023</td>
+                        <td><%= todo.createdAt.toUTCString() %></td>
                     </tr>
                 </tbody>
             </table>

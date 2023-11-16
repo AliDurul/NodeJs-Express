@@ -18,13 +18,12 @@
             <p>
                 <a class="btn btn-sm btn-secondary" href="/view">List Todos</a>
             </p>
-
             <form action="" method="POST">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th># 1</th>
+                            <th># <%= todo.id %></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,34 +31,34 @@
                             <td>Priority</td>
                             <td>
                                 <select class="form-select" name="priority">
-                                    <option value="1">High</option>
-                                    <option value="0" selected>Norm</option>
-                                    <option value="-1">Low</option>
+                                    <option value="1" <%= (todo.priority=='1' ? 'selected' : '') %>>High</option>
+                                    <option value="0" <%= (todo.priority=='0' ? 'selected' : '') %>>Norm</option>
+                                    <option value="-1" <%= (todo.priority=='-1' ? 'selected' : '') %>>Low</option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <td>Title</td>
-                            <td><input type="text" name="title" required class="form-control" value="Test Title"></td>
+                            <td><input type="text" name="title" required class="form-control" value="<%= todo.title %>"></td>
                         </tr>
                         <tr>
                             <td>Description</td>
                             <td>
-                                <textarea name="description" class="form-control">Test Description</textarea>
+                                <textarea name="description" class="form-control"><%= todo.description %></textarea>
                             </td>
                         </tr>
                         <tr>
                             <td>Is Done?</td>
                             <td>
                                 <select class="form-select" name="isDone">
-                                    <option value="1">Yes</option>
-                                    <option value="0" selected>No</option>
+                                    <option value="1" <%= (todo.isDone==true ? 'selected' : '') %>>Yes</option>
+                                    <option value="0" <%= (todo.isDone==false ? 'selected' : '') %>>No</option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <td>Created</td>
-                            <td>05/11/2023</td>
+                            <td><%= todo.createdAt.toUTCString() %></td>
                         </tr>
                     </tbody>
                 </table>
